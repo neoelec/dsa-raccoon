@@ -9,12 +9,14 @@
 
 #include <rcn/slctnsrt.h>
 
+#include "mcpy.h"
 #include "utility.h"
 
 #define __base(a) ((base) + (a) * (size))
 
 void slctnsrt(void *base, size_t nmemb, size_t size, compar_t compar)
 {
+    mcpy_t mcpy;
     size_t i;
     void *min;
 
@@ -25,21 +27,23 @@ void slctnsrt(void *base, size_t nmemb, size_t size, compar_t compar)
         exit(EXIT_FAILURE);
     }
 
+    mcpy = __pick_mcpy(size);
+
     for (i = 0; i < nmemb - 1; i++) {
         size_t j;
         size_t min_idx = i;
 
-        memcpy(min, __base(i), size);
+        mcpy(min, __base(i), size);
 
         for (j = i + 1; j < nmemb; j++) {
             if (compar(__base(j), min) < 0) {
-                memcpy(min, __base(j), size);
+                mcpy(min, __base(j), size);
                 min_idx = j;
             }
         }
 
-        memcpy(__base(min_idx), __base(i), size);
-        memcpy(__base(i), min, size);
+        mcpy(__base(min_idx), __base(i), size);
+        mcpy(__base(i), min, size);
     }
 
     free(min);
