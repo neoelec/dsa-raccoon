@@ -42,6 +42,7 @@ extern void cdll_forward(struct cdll *list, dbll_do_each_t do_each, void *priv);
 extern void cdll_backward(struct cdll *list, dbll_do_each_t do_each,
                           void *priv);
 extern void cdll_reverse(struct cdll *list);
+extern void cdll_rotate(struct cdll *list, ssize_t n);
 
 #ifdef __cplusplus
 }

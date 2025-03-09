@@ -277,3 +277,14 @@ void cdll_reverse(struct cdll *list)
     list->head = tmp->next;
     dbll_unlink(tmp);
 }
+
+void cdll_rotate(struct cdll *list, ssize_t n)
+{
+    struct dbll_node *x, *p;
+
+    if (cdll_is_empty(list))
+        return;
+
+    __get(list, n, &x, &p);
+    list->head = x;
+}
