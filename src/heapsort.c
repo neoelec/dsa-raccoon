@@ -17,17 +17,9 @@
 #define __base(a) ((base) + (a) * (size))
 
 static void __down_heap(void *base, size_t nmemb, size_t size, compar_t compar,
-                        mcpy_t mcpy, size_t k)
+                        mcpy_t mcpy, size_t k, void *v)
 {
     size_t i;
-    void *v;
-
-    v = malloc(size);
-    if (v == NULL) {
-        fprintf(stderr, "%s():%u: Failed to allocate memory for sorting\n",
-                __func__, __LINE__);
-        exit(EXIT_FAILURE);
-    }
 
     mcpy(v, __base(k - 1), size);
 
@@ -46,8 +38,6 @@ static void __down_heap(void *base, size_t nmemb, size_t size, compar_t compar,
     }
 
     mcpy(__base(k - 1), v, size);
-
-    free(v);
 }
 
 void heapsort(void *base, size_t nmemb, size_t size, compar_t compar)
@@ -55,15 +45,25 @@ void heapsort(void *base, size_t nmemb, size_t size, compar_t compar)
     mcpy_t mcpy;
     swap_t swap;
     size_t k;
+    void *v;
+
+    v = malloc(size);
+    if (v == NULL) {
+        fprintf(stderr, "%s():%u: Failed to allocate memory for sorting\n",
+                __func__, __LINE__);
+        exit(EXIT_FAILURE);
+    }
 
     mcpy = __pick_mcpy(size);
     swap = __pick_swap(size);
 
     for (k = nmemb / 2; k >= 1; k--)
-        __down_heap(base, nmemb, size, compar, mcpy, k);
+        __down_heap(base, nmemb, size, compar, mcpy, k, v);
 
     while (nmemb > 1) {
         swap(base, __base(nmemb - 1), size);
-        __down_heap(base, --nmemb, size, compar, mcpy, 1);
+        __down_heap(base, --nmemb, size, compar, mcpy, 1, v);
     }
+
+    free(v);
 }
