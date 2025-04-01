@@ -41,7 +41,7 @@ int arst_top(const struct arst *stack, void **_e)
 
 void arst_forward(struct arst *stack, do_each_t do_each, void *priv)
 {
-    ssize_t i;
+    size_t i;
 
     for (i = 0; i <= stack->top; i++)
         do_each(stack->pool[i], priv);

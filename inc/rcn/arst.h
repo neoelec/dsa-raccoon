@@ -11,7 +11,7 @@
 
 struct arst {
     size_t nr_entries;
-    ssize_t top;
+    size_t top;
     void *pool[];
 };
 
@@ -35,7 +35,7 @@ static inline size_t arst_count(const struct arst *stack)
 
 static inline bool arst_is_empty(const struct arst *stack)
 {
-    return stack->top == -1;
+    return arst_count(stack) == 0;
 }
 
 static inline bool arst_is_full(const struct arst *stack)
