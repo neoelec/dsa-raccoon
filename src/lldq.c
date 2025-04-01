@@ -5,31 +5,31 @@
 
 #include <errno.h>
 
-#include <rcn/cdll.h>
+#include <rcn/lldq.h>
 
-static int __head(const struct cdll *list, struct dbll_node **_x)
+static int __head(const struct lldq *deque, struct dbll_node **_x)
 {
-    *_x = list->head;
+    *_x = deque->head;
 
-    return cdll_is_empty(list) ? -ENODATA : 0;
+    return lldq_is_empty(deque) ? -ENODATA : 0;
 }
 
-static int __tail(const struct cdll *list, struct dbll_node **_x)
+static int __tail(const struct lldq *deque, struct dbll_node **_x)
 {
-    *_x = list->head ? list->head->prev : NULL;
+    *_x = deque->head ? deque->head->prev : NULL;
 
-    return cdll_is_empty(list) ? -ENODATA : 0;
+    return lldq_is_empty(deque) ? -ENODATA : 0;
 }
 
-static int __get(const struct cdll *list, ssize_t n, struct dbll_node **_x,
+static int __get(const struct lldq *deque, ssize_t n, struct dbll_node **_x,
                  struct dbll_node **_p)
 {
     struct dbll_node *x;
 
-    if (cdll_is_empty(list))
+    if (lldq_is_empty(deque))
         return -ENODATA;
 
-    x = list->head;
+    x = deque->head;
     if (n > 0) {
         while (--n >= 0)
             x = x->next;
@@ -44,89 +44,76 @@ static int __get(const struct cdll *list, ssize_t n, struct dbll_node **_x,
     return 0;
 }
 
-static void __remove(struct cdll *list, struct dbll_node *x)
+static void __remove(struct lldq *deque, struct dbll_node *x)
 {
-    if (x == list->head)
-        list->head = x->next;
+    if (x == deque->head)
+        deque->head = x->next;
 
     dbll_unlink(x);
 
-    if (list->head == x)
-        list->head = NULL;
+    if (deque->head == x)
+        deque->head = NULL;
+
+    deque->count--;
 }
 
-size_t cdll_count(const struct cdll *list)
-{
-    struct dbll_node *x, *h;
-    size_t count;
-    int err;
-
-    err = __head(list, &x);
-    if (err != 0)
-        return err;
-
-    count = 0;
-    h = x;
-    do {
-        count++;
-        x = x->next;
-    } while (x != h);
-
-    return count;
-}
-
-void cdll_insert(struct cdll *list, ssize_t n, struct dbll_node *x)
+void lldq_insert(struct lldq *deque, ssize_t n, struct dbll_node *x)
 {
     struct dbll_node *y, *p;
     int err;
 
-    err = __get(list, n, &y, &p);
+    err = __get(deque, n, &y, &p);
     if (err != 0)
         dbll_initialize(x);
     else
         dbll_link_next(p, x);
 
     if (err != 0 || n == 0)
-        list->head = x;
+        deque->head = x;
+
+    deque->count++;
 }
 
-void cdll_insert_head(struct cdll *list, struct dbll_node *x)
+void lldq_push_front(struct lldq *deque, struct dbll_node *x)
 {
     struct dbll_node *h;
     int err;
 
-    err = __head(list, &h);
+    err = __head(deque, &h);
     if (err != 0)
         dbll_initialize(x);
     else
         dbll_link_previous(h, x);
 
-    list->head = x;
+    deque->head = x;
+    deque->count++;
 }
 
-void cdll_insert_tail(struct cdll *list, struct dbll_node *x)
+void lldq_push_rear(struct lldq *deque, struct dbll_node *x)
 {
     struct dbll_node *t;
     int err;
 
-    err = __tail(list, &t);
+    err = __tail(deque, &t);
     if (err != 0) {
         dbll_initialize(x);
-        list->head = x;
+        deque->head = x;
     } else
         dbll_link_next(t, x);
+
+    deque->count++;
 }
 
-int cdll_remove(struct cdll *list, ssize_t n, struct dbll_node **_x)
+int lldq_remove(struct lldq *deque, ssize_t n, struct dbll_node **_x)
 {
     struct dbll_node *x, *p;
     int err;
 
-    err = __get(list, n, &x, &p);
+    err = __get(deque, n, &x, &p);
     if (err != 0)
         return err;
 
-    __remove(list, x);
+    __remove(deque, x);
 
     if (_x != NULL)
         *_x = x;
@@ -134,16 +121,16 @@ int cdll_remove(struct cdll *list, ssize_t n, struct dbll_node **_x)
     return 0;
 }
 
-int cdll_remove_head(struct cdll *list, struct dbll_node **_x)
+int lldq_pop_front(struct lldq *deque, struct dbll_node **_x)
 {
     struct dbll_node *x;
     int err;
 
-    err = __head(list, &x);
+    err = __head(deque, &x);
     if (err != 0)
         return err;
 
-    __remove(list, x);
+    __remove(deque, x);
 
     if (_x != NULL)
         *_x = x;
@@ -151,16 +138,16 @@ int cdll_remove_head(struct cdll *list, struct dbll_node **_x)
     return 0;
 }
 
-int cdll_remove_tail(struct cdll *list, struct dbll_node **_x)
+int lldq_pop_rear(struct lldq *deque, struct dbll_node **_x)
 {
     struct dbll_node *x;
     int err;
 
-    err = __tail(list, &x);
+    err = __tail(deque, &x);
     if (err != 0)
         return err;
 
-    __remove(list, x);
+    __remove(deque, x);
 
     if (_x != NULL)
         *_x = x;
@@ -168,12 +155,12 @@ int cdll_remove_tail(struct cdll *list, struct dbll_node **_x)
     return 0;
 }
 
-int cdll_get(const struct cdll *list, ssize_t n, struct dbll_node **_x)
+int lldq_get(const struct lldq *deque, ssize_t n, struct dbll_node **_x)
 {
     struct dbll_node *x, *p;
     int err;
 
-    err = __get(list, n, &x, &p);
+    err = __get(deque, n, &x, &p);
 
     if (_x != NULL)
         *_x = x;
@@ -181,12 +168,12 @@ int cdll_get(const struct cdll *list, ssize_t n, struct dbll_node **_x)
     return err;
 }
 
-int cdll_get_head(const struct cdll *list, struct dbll_node **_x)
+int lldq_front(const struct lldq *deque, struct dbll_node **_x)
 {
     struct dbll_node *x;
     int err;
 
-    err = __head(list, &x);
+    err = __head(deque, &x);
 
     if (_x != NULL)
         *_x = x;
@@ -194,12 +181,12 @@ int cdll_get_head(const struct cdll *list, struct dbll_node **_x)
     return err;
 }
 
-int cdll_get_tail(const struct cdll *list, struct dbll_node **_x)
+int lldq_rear(const struct lldq *deque, struct dbll_node **_x)
 {
     struct dbll_node *x;
     int err;
 
-    err = __tail(list, &x);
+    err = __tail(deque, &x);
 
     if (_x != NULL)
         *_x = x;
@@ -207,13 +194,13 @@ int cdll_get_tail(const struct cdll *list, struct dbll_node **_x)
     return err;
 }
 
-int cdll_search(const struct cdll *list, dbll_compar_t compar,
+int lldq_search(const struct lldq *deque, dbll_compar_t compar,
                 const struct dbll_node *kx, struct dbll_node **_x)
 {
     struct dbll_node *x, *h;
     int err;
 
-    err = __head(list, &x);
+    err = __head(deque, &x);
     if (err != 0)
         return err;
 
@@ -232,12 +219,12 @@ int cdll_search(const struct cdll *list, dbll_compar_t compar,
     return -ENOENT;
 }
 
-void cdll_forward(struct cdll *list, dbll_do_each_t do_each, void *priv)
+void lldq_forward(struct lldq *deque, dbll_do_each_t do_each, void *priv)
 {
     struct dbll_node *x, *h;
     int err;
 
-    err = __head(list, &x);
+    err = __head(deque, &x);
     if (err != 0)
         return;
 
@@ -248,12 +235,12 @@ void cdll_forward(struct cdll *list, dbll_do_each_t do_each, void *priv)
     } while (x != h);
 }
 
-void cdll_backward(struct cdll *list, dbll_do_each_t do_each, void *priv)
+void lldq_backward(struct lldq *deque, dbll_do_each_t do_each, void *priv)
 {
     struct dbll_node *x, *t;
     int err;
 
-    err = __tail(list, &x);
+    err = __tail(deque, &x);
     if (err != 0)
         return;
 
@@ -264,27 +251,27 @@ void cdll_backward(struct cdll *list, dbll_do_each_t do_each, void *priv)
     } while (x != t);
 }
 
-void cdll_reverse(struct cdll *list)
+void lldq_reverse(struct lldq *deque)
 {
     struct dbll_node __tmp, *tmp = &__tmp;
 
-    if (cdll_is_empty(list))
+    if (lldq_is_empty(deque))
         return;
 
-    dbll_link_previous(list->head, tmp);
+    dbll_link_previous(deque->head, tmp);
     dbll_reverse(tmp);
 
-    list->head = tmp->next;
+    deque->head = tmp->next;
     dbll_unlink(tmp);
 }
 
-void cdll_rotate(struct cdll *list, ssize_t n)
+void lldq_rotate(struct lldq *deque, ssize_t n)
 {
     struct dbll_node *x, *p;
 
-    if (cdll_is_empty(list))
+    if (lldq_is_empty(deque))
         return;
 
-    __get(list, n, &x, &p);
-    list->head = x;
+    __get(deque, n, &x, &p);
+    deque->head = x;
 }
