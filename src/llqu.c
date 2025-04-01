@@ -15,14 +15,6 @@ int llqu_enqueue(struct llqu *queue, struct dbll_node *x)
     return 0;
 }
 
-int llqu_insert_front(struct llqu *queue, struct dbll_node *x)
-{
-    queue->count++;
-    dbll_insert_head(&queue->list, x);
-
-    return 0;
-}
-
 int llqu_dequeue(struct llqu *queue, struct dbll_node **_x)
 {
     if (llqu_is_empty(queue))
@@ -30,17 +22,6 @@ int llqu_dequeue(struct llqu *queue, struct dbll_node **_x)
 
     queue->count--;
     dbll_remove_head(&queue->list, _x);
-
-    return 0;
-}
-
-int llqu_remove_rear(struct llqu *queue, struct dbll_node **_x)
-{
-    if (llqu_is_empty(queue))
-        return -ENODATA;
-
-    queue->count--;
-    dbll_remove_tail(&queue->list, _x);
 
     return 0;
 }
