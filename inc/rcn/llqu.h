@@ -9,44 +9,45 @@
 
 #include "dbll.h"
 
-struct llqu {
-    size_t count;
-    struct dbll_node list;
-};
-
-static inline void llqu_initialize(struct llqu *queue)
+static inline void llqu_initialize(struct dbll *queue)
 {
-    queue->count = 0;
-    dbll_initialize(&queue->list);
+    dbll_initialize(queue);
 }
 
-static inline size_t llqu_count(const struct llqu *queue)
+static inline size_t llqu_count(const struct dbll *queue)
 {
-    return queue->count;
+    return dbll_count(queue);
 }
 
-static inline bool llqu_is_empty(const struct llqu *queue)
+static inline bool llqu_is_empty(const struct dbll *queue)
 {
-    return queue->count == 0;
+    return dbll_is_empty(queue);
 }
 
-static inline void llqu_forward(struct llqu *queue, dbll_do_each_t do_each,
+static inline void llqu_forward(struct dbll *queue, dbll_do_each_t do_each,
                                 void *priv)
 {
-    dbll_forward(&queue->list, do_each, priv);
+    dbll_forward(queue, do_each, priv);
 }
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern int llqu_enqueue(struct llqu *queue, struct dbll_node *x);
-extern int llqu_dequeue(struct llqu *queue, struct dbll_node **_x);
-extern int llqu_front(const struct llqu *queue, struct dbll_node **_x);
-extern int llqu_rear(const struct llqu *queue, struct dbll_node **_x);
-
-#ifdef __cplusplus
+static inline void llqu_enqueue(struct dbll *queue, struct dbll_node *x)
+{
+    dbll_insert_tail(queue, x);
 }
-#endif
+
+static inline int llqu_dequeue(struct dbll *queue, struct dbll_node **_x)
+{
+    return dbll_remove_head(queue, _x);
+}
+
+static inline int llqu_front(const struct dbll *queue, struct dbll_node **_x)
+{
+    return dbll_get_head(queue, _x);
+}
+
+static inline int llqu_rear(const struct dbll *queue, struct dbll_node **_x)
+{
+    return dbll_get_tail(queue, _x);
+}
 
 #endif /* __LLQU_H__ */
