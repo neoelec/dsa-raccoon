@@ -17,7 +17,7 @@ typedef int (*chht_compar_t)(const struct dbll_node *key,
 
 struct chht {
     size_t nr_buckets;
-    size_t (*key_hash)(const struct chht *, const struct dbll_node *);
+    chht_hash_t key_hash;
     chht_compar_t compar;
     struct dbll_node bucket[];
 };
@@ -29,7 +29,7 @@ struct chht {
 
 static inline void chht_remove(struct chht *table, struct dbll_node *z)
 {
-    dbll_unlink(z);
+    dbll_node_unlink(z);
 }
 
 #ifdef __cplusplus
