@@ -49,7 +49,7 @@ static void __remove(struct lldq *deque, struct dbll_node *x)
     if (x == deque->head)
         deque->head = x->next;
 
-    dbll_unlink(x);
+    dbll_node_unlink(x);
 
     if (deque->head == x)
         deque->head = NULL;
@@ -64,9 +64,9 @@ void lldq_insert(struct lldq *deque, ssize_t n, struct dbll_node *x)
 
     err = __get(deque, n, &y, &p);
     if (err != 0)
-        dbll_initialize(x);
+        dbll_node_initialize(x);
     else
-        dbll_link_next(p, x);
+        dbll_node_link_next(p, x);
 
     if (err != 0 || n == 0)
         deque->head = x;
@@ -81,9 +81,9 @@ void lldq_push_front(struct lldq *deque, struct dbll_node *x)
 
     err = __head(deque, &h);
     if (err != 0)
-        dbll_initialize(x);
+        dbll_node_initialize(x);
     else
-        dbll_link_previous(h, x);
+        dbll_node_link_prev(h, x);
 
     deque->head = x;
     deque->count++;
@@ -96,10 +96,10 @@ void lldq_push_rear(struct lldq *deque, struct dbll_node *x)
 
     err = __tail(deque, &t);
     if (err != 0) {
-        dbll_initialize(x);
+        dbll_node_initialize(x);
         deque->head = x;
     } else
-        dbll_link_next(t, x);
+        dbll_node_link_next(t, x);
 
     deque->count++;
 }
@@ -258,11 +258,11 @@ void lldq_reverse(struct lldq *deque)
     if (lldq_is_empty(deque))
         return;
 
-    dbll_link_previous(deque->head, tmp);
-    dbll_reverse(tmp);
+    dbll_node_link_prev(deque->head, tmp);
+    dbll_node_reverse(tmp);
 
     deque->head = tmp->next;
-    dbll_unlink(tmp);
+    dbll_node_unlink(tmp);
 }
 
 void lldq_rotate(struct lldq *deque, ssize_t n)
