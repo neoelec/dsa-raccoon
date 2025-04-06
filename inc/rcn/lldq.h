@@ -114,7 +114,7 @@ static inline void lldq_rotate(struct dbll *deque, ssize_t n)
     ssize_t count = deque->count;
     struct dbll_node *y;
 
-    if (count == 0)
+    if (count == 0 || n % count == 0)
         return;
 
     lldq_get(deque, n, &y);
