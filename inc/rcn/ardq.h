@@ -59,6 +59,7 @@ extern int ardq_front(const struct ardq *deque, void **_e);
 extern int ardq_rear(const struct ardq *deque, void **_e);
 extern void ardq_forward(struct ardq *deque, do_each_t do_each, void *priv);
 extern void ardq_backward(struct ardq *deque, do_each_t do_each, void *priv);
+extern void ardq_rotate(struct ardq *deque, ssize_t n);
 
 #ifdef __cplusplus
 }

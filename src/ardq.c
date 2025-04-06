@@ -123,3 +123,21 @@ void ardq_backward(struct ardq *deque, do_each_t do_each, void *priv)
     for (i = 0; i <= f && n > 0; i++, n--)
         do_each(deque->pool[i], priv);
 }
+
+void ardq_rotate(struct ardq *deque, ssize_t n)
+{
+    ssize_t count = ardq_count(deque);
+    size_t i;
+
+    if (n == 0 || n % count == 0)
+        return;
+    else if (n < 0)
+        n = count + n % count;
+
+    for (i = 0; i < (size_t)n; i++) {
+        void *e;
+
+        ardq_pop_front(deque, &e);
+        ardq_push_rear(deque, e);
+    }
+}
