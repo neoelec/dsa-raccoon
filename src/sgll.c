@@ -3,6 +3,7 @@
  * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
 
+#include <assert.h>
 #include <errno.h>
 
 #include <rcn/sgll.h>
@@ -113,6 +114,18 @@ size_t sgll_count_debug(const struct sgll *list)
         count++;
 
     return count;
+}
+
+void sgll_link_next(struct sgll *list, struct sgll_node *x, struct sgll_node *y)
+{
+    sgll_node_link_next(x, y);
+    list->count++;
+}
+
+void sgll_unlink_next(struct sgll *list, struct sgll_node *y)
+{
+    sgll_node_unlink_next(y);
+    list->count--;
 }
 
 int sgll_insert(struct sgll *list, size_t n, struct sgll_node *x)

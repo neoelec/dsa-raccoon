@@ -83,6 +83,9 @@ extern void sgll_node_forward(struct sgll_node *head, sgll_do_each_t do_each,
 extern void sgll_node_reverse(struct sgll_node *head);
 
 extern size_t sgll_count_debug(const struct sgll *list);
+extern void sgll_link_next(struct sgll *list, struct sgll_node *x,
+                           struct sgll_node *y);
+extern void sgll_unlink_next(struct sgll *list, struct sgll_node *y);
 extern int sgll_insert(struct sgll *list, size_t n, struct sgll_node *x);
 extern int sgll_insert_tail(struct sgll *list, struct sgll_node *x);
 extern int sgll_remvoe(struct sgll *list, size_t n, struct sgll_node **_x);
