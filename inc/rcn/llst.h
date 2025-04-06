@@ -9,47 +9,40 @@
 
 #include "sgll.h"
 
-struct llst {
-    size_t count;
-    struct sgll_node list;
-};
-
-static inline void llst_initialize(struct llst *stack)
+static inline void llst_initialize(struct sgll *stack)
 {
-    stack->count = 0;
-    sgll_initialize(&stack->list);
+    sgll_initialize(stack);
 }
 
-static inline size_t llst_count(const struct llst *stack)
+static inline size_t llst_count(const struct sgll *stack)
 {
-    return stack->count;
+    return sgll_count(stack);
 }
 
-static inline bool llst_is_empty(const struct llst *stack)
+static inline bool llst_is_empty(const struct sgll *stack)
 {
-    return stack->count == 0;
+    return sgll_is_empty(stack);
 }
 
-static inline void llst_forward(struct llst *stack, sgll_do_each_t do_each,
+static inline void llst_forward(struct sgll *stack, sgll_do_each_t do_each,
                                 void *priv)
 {
-    sgll_forward(&stack->list, do_each, priv);
+    sgll_forward(stack, do_each, priv);
 }
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern void llst_initialize(struct llst *stack);
-extern int llst_push(struct llst *stack, struct sgll_node *x);
-extern int llst_pop(struct llst *stack, struct sgll_node **_x);
-extern int llst_top(const struct llst *stack, struct sgll_node **_x);
-extern size_t llst_count(const struct llst *stack);
-extern bool llst_is_empty(const struct llst *stack);
-extern void llst_forward(struct llst *stack, sgll_do_each_t do_each,
-                         void *priv);
-
-#ifdef __cplusplus
+static inline void llst_push(struct sgll *stack, struct sgll_node *x)
+{
+    return sgll_insert_head(stack, x);
 }
-#endif
+
+static inline int llst_pop(struct sgll *stack, struct sgll_node **_x)
+{
+    return sgll_remove_head(stack, _x);
+}
+
+static inline int llst_top(const struct sgll *stack, struct sgll_node **_x)
+{
+    return sgll_get_head(stack, _x);
+}
+
 #endif /* __LLST_H__ */
