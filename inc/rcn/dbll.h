@@ -108,6 +108,12 @@ extern void dbll_node_backward(struct dbll_node *pool, dbll_do_each_t do_each,
                                void *priv);
 extern void dbll_node_reverse(struct dbll_node *pool);
 
+extern size_t dbll_count_debug(const struct dbll *list);
+extern void dbll_link_next(struct dbll *list, struct dbll_node *x,
+                           struct dbll_node *y);
+extern void dbll_link_prev(struct dbll *list, struct dbll_node *z,
+                           struct dbll_node *y);
+extern void dbll_unlink(struct dbll *list, struct dbll_node *y);
 extern int dbll_insert(struct dbll *list, size_t n, struct dbll_node *x);
 extern int dbll_remvoe(struct dbll *list, size_t n, struct dbll_node **_x);
 extern int dbll_remove_head(struct dbll *list, struct dbll_node **_x);

@@ -3,6 +3,7 @@
  * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
 
+#include <assert.h>
 #include <errno.h>
 
 #include <rcn/dbll.h>
@@ -66,10 +67,12 @@ static int __head(const struct dbll *list, struct dbll_node **_x)
 
 static int __tail(const struct dbll *list, struct dbll_node **_x)
 {
+    const struct dbll_node *pool = &list->pool;
+
     if (dbll_is_empty(list))
         return -ENODATA;
 
-    *_x = list->pool.prev;
+    *_x = pool->prev;
 
     return 0;
 }
@@ -96,6 +99,36 @@ static int __get(const struct dbll *list, ssize_t n, struct dbll_node **_x,
     *_p = p;
 
     return 0;
+}
+
+size_t dbll_count_debug(const struct dbll *list)
+{
+    const struct dbll_node *pool = &list->pool;
+    const struct dbll_node *x;
+    size_t count = 0;
+
+    for (x = pool->next; x != pool; x = x->next)
+        count++;
+
+    return count;
+}
+
+void dbll_link_next(struct dbll *list, struct dbll_node *x, struct dbll_node *y)
+{
+    dbll_node_link_next(x, y);
+    list->count++;
+}
+
+void dbll_link_prev(struct dbll *list, struct dbll_node *x, struct dbll_node *y)
+{
+    dbll_node_link_prev(x, y);
+    list->count++;
+}
+
+void dbll_unlink(struct dbll *list, struct dbll_node *y)
+{
+    dbll_node_unlink(y);
+    list->count--;
 }
 
 int dbll_insert(struct dbll *list, size_t n, struct dbll_node *x)
