@@ -11,8 +11,6 @@
 
 #include <rcn/radixsrt.h>
 
-#include "utility.h"
-
 #define __base(st, a) (((st)->base) + (a) * (st)->size)
 
 struct radixsrt_state {

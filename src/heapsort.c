@@ -12,7 +12,6 @@
 
 #include "mcpy.h"
 #include "swap.h"
-#include "utility.h"
 
 #define __base(a) ((base) + (a) * (size))
 

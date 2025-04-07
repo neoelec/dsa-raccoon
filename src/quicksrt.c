@@ -11,7 +11,6 @@
 #include <rcn/quicksrt.h>
 
 #include "swap.h"
-#include "utility.h"
 
 #define __base(a) ((base) + (a) * (size))
 #define __compar(a, b) compar(__base(a), __base(b))

@@ -11,7 +11,6 @@
 #include <rcn/instnsrt.h>
 
 #include "mcpy.h"
-#include "utility.h"
 
 #define __base(a) ((base) + (a) * (size))
 

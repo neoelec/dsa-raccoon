@@ -10,7 +10,6 @@
 #include <rcn/heap.h>
 
 #include "swap.h"
-#include "utility.h"
 
 #define __nr_entries(order) ((1U << (order)) - 1U)
 #define __sz_pool(heap) (sizeof(*(heap)->pool) * __nr_entries(heap->order))

@@ -8,8 +8,6 @@
 
 #include <rcn/linrsrch.h>
 
-#include "utility.h"
-
 #define __base(a) ((base) + (a) * (size))
 
 void *linrsrch(const void *key, const void *base, size_t nmemb, size_t size,

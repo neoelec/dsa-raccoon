@@ -12,7 +12,6 @@
 #include <rcn/mergesrt.h>
 
 #include "mcpy.h"
-#include "utility.h"
 
 #define __base(a) ((base) + (a) * (size))
 #define __mcpy(dest, d_idx, base, b_idx, size) \
