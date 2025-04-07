@@ -122,8 +122,8 @@ static void __radixsrt(struct radixsrt_state *st)
     unsigned long long *count;
     unsigned long long shift;
 
-    output = malloc(sizeof(*output) * st->nmemb);
-    count = malloc(sizeof(*count) << st->order);
+    output = calloc(st->nmemb, sizeof(*output));
+    count = calloc(1 << st->order, sizeof(*output));
     if (output == NULL || count == NULL) {
         fprintf(stderr, "%s():%u: Failed to allocate memory for sorting\n",
                 __func__, __LINE__);

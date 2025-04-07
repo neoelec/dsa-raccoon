@@ -24,7 +24,7 @@ void mergesrt(void *base, size_t nmemb, size_t size, compar_t compar)
     size_t idx;
     void *dest;
 
-    dest = malloc(size * nmemb);
+    dest = calloc(nmemb, size);
     if (dest == NULL) {
         fprintf(stderr, "%s():%u: Failed to allocate memory for sorting\n",
                 __func__, __LINE__);
