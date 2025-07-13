@@ -13,6 +13,7 @@ TEST(eratosthenesTest, BasicTest)
                         false, true,  false, true,  false, false, false, true,
                         false, false, false, false, false, true };
     bool *sieve = rcn_cpp::eratosthenes<uint>(29);
+
     EXPECT_TRUE(0 == std::memcmp(sieve, expected, sizeof(expected)));
     delete sieve;
 }
@@ -21,6 +22,7 @@ TEST(eratosthenesTest, EmptyTest)
 {
     bool expected[] = { false, false };
     bool *sieve = rcn_cpp::eratosthenes<uint>(1);
+
     EXPECT_TRUE(0 == std::memcmp(sieve, expected, sizeof(expected)));
     delete sieve;
 }
@@ -28,6 +30,7 @@ TEST(eratosthenesTest, EmptyTest)
 TEST(eratosthenesTest, LargerNumberTest)
 {
     bool *sieve = rcn_cpp::eratosthenes<uint>(100);
+
     ASSERT_EQ(sieve[2], true);
     ASSERT_EQ(sieve[3], true);
     ASSERT_EQ(sieve[5], true);
@@ -47,11 +50,13 @@ TEST(eratosthenesTest, CheckPrimesUpto100)
                                           67, 71, 73, 79, 83, 89, 97 };
     bool *sieve = rcn_cpp::eratosthenes<uint>(100);
     std::vector<uint> actual_primes;
+
     for (size_t i = 2; i <= 100; ++i) {
         if (sieve[i]) {
             actual_primes.push_back(i);
         }
     }
+
     ASSERT_EQ(expected_primes, actual_primes);
     delete sieve;
 }

@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0+
-//
-// Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
-//
+/* SPDX-License-Identifier: GPL-2.0+ */
 
-// Heap (Array)
+/*
+ * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
+ */
+
+/* Heap (Array) */
 #ifndef __RCN_CPP_HEAP_H__
 #define __RCN_CPP_HEAP_H__
 
@@ -14,7 +15,6 @@
 
 namespace rcn_cpp
 {
-
 template <typename T>
 class heap {
 public:
@@ -66,10 +66,12 @@ public:
         if (full()) {
             return;
         }
+
         ssize_t pos, parent;
         pos = size_++;
         entry_[pos] = e;
         parent = __parent(pos);
+
         while (pos > 0 && __compar(pos, parent) < 0) {
             __swap(pos, parent);
             pos = parent;
@@ -82,31 +84,38 @@ public:
         if (empty()) {
             return nullptr;
         }
+
         size_t pos, child, left, right;
         T *e = entry_[0];
         entry_[0] = entry_[--size_];
         pos = 0;
         left = __left(pos);
+
         while (left < size_) {
             right = left + 1;
+
             if (right == size_) {
                 child = left;
             } else {
                 child = __compar(left, right) < 0 ? left : right;
             }
+
             if (__compar(pos, child) < 0) {
                 break;
             }
+
             __swap(pos, child);
             pos = child;
             left = __left(pos);
         }
+
         return e;
     }
 
     void swap(heap *other)
     {
         heap tmp;
+
         memcpy(&tmp, this, sizeof(tmp));
         memcpy(this, other, sizeof(tmp));
         memcpy(other, &tmp, sizeof(tmp));
@@ -142,6 +151,7 @@ private:
     inline void __swap(size_t ke_i, size_t in_heap_i)
     {
         T *tmp = entry_[ke_i];
+
         entry_[ke_i] = entry_[in_heap_i];
         entry_[in_heap_i] = tmp;
     }
@@ -152,7 +162,6 @@ private:
     T **entry_;
     size_t size_;
 };
-
 }
 
-#endif // __RCN_CPP_HEAP_H__
+#endif /* __RCN_CPP_HEAP_H__ */

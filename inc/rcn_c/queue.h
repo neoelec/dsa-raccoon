@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -76,6 +77,7 @@ static inline void queue_push(struct queue *self, void *e)
     if (queue_full(self)) {
         return;
     }
+
     self->back_ = self->back_ == 0 ? self->nr_entries_ - 1 : self->back_ - 1;
     self->entry_[self->back_] = e;
     self->size_++;
@@ -86,6 +88,7 @@ static inline void *queue_pop(struct queue *self)
     if (queue_empty(self)) {
         return NULL;
     }
+
     void *e = self->entry_[self->front_];
     self->front_ = self->front_ == 0 ? self->nr_entries_ - 1 : self->front_ - 1;
     self->size_--;
@@ -95,6 +98,7 @@ static inline void *queue_pop(struct queue *self)
 static inline void queue_swap(struct queue *self, struct queue *other)
 {
     struct queue tmp;
+
     memcpy(&tmp, self, sizeof(tmp));
     memcpy(self, other, sizeof(tmp));
     memcpy(other, &tmp, sizeof(tmp));

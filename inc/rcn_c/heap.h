@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -45,6 +46,7 @@ static inline int __heap_compar(const struct heap *self, size_t ke_i,
 static inline void __heap_swap(struct heap *self, size_t ke_i, size_t in_heap_i)
 {
     void *tmp = self->entry_[ke_i];
+
     self->entry_[ke_i] = self->entry_[in_heap_i];
     self->entry_[in_heap_i] = tmp;
 }
@@ -94,10 +96,12 @@ static inline void heap_push(struct heap *self, void *e)
     if (heap_full(self)) {
         return;
     }
+
     ssize_t pos, parent;
     pos = self->size_++;
     self->entry_[pos] = e;
     parent = __heap_parent(pos);
+
     while (pos > 0 && __heap_compar(self, pos, parent) < 0) {
         __heap_swap(self, pos, parent);
         pos = parent;
@@ -110,31 +114,38 @@ static inline void *heap_pop(struct heap *self)
     if (heap_empty(self)) {
         return NULL;
     }
+
     size_t pos, child, left, right;
     void *e = self->entry_[0];
     self->entry_[0] = self->entry_[--self->size_];
     pos = 0;
     left = __heap_left(pos);
+
     while (left < self->size_) {
         right = left + 1;
+
         if (right == self->size_) {
             child = left;
         } else {
             child = __heap_compar(self, left, right) < 0 ? left : right;
         }
+
         if (__heap_compar(self, pos, child) < 0) {
             break;
         }
+
         __heap_swap(self, pos, child);
         pos = child;
         left = __heap_left(pos);
     }
+
     return e;
 }
 
 static inline void heap_swap(struct heap *self, struct heap *other)
 {
     struct heap tmp;
+
     memcpy(&tmp, self, sizeof(tmp));
     memcpy(self, other, sizeof(tmp));
     memcpy(other, &tmp, sizeof(tmp));

@@ -62,10 +62,12 @@ TEST_F(StackTest, StackPushPop)
 TEST_F(StackTest, StackOverflow)
 {
     int v[nr_entries_];
+
     for (size_t i = 0; i < nr_entries_; ++i) {
         v[i] = (int)(i + 1);
         stack_->push(&v[i]);
     }
+
     static const size_t nr_entries = nr_entries_;
     ASSERT_EQ(stack_->size(), nr_entries);
     int a = 1;
@@ -82,6 +84,7 @@ TEST_F(StackTest, StackUnderflow)
 TEST_F(StackTest, StackSwap)
 {
     rcn_cpp::stack<int> other_stack(nr_entries_);
+
     other_stack.alloc_entry();
 
     int a = 1, b = 2;

@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -35,6 +36,7 @@ static inline void dlhash_clear(struct dlhash *self)
     if (self->bucket_ == NULL) {
         return;
     }
+
     for (size_t i = 0; i < self->sz_bucket_; ++i) {
         dlist_clear(&self->bucket_[i]);
     }
@@ -74,21 +76,25 @@ static inline bool dlhash_empty(const struct dlhash *self)
             return false;
         }
     }
+
     return true;
 }
 
 static inline size_t dlhash_size(const struct dlhash *self)
 {
     size_t count = 0;
+
     for (size_t i = 0; i < dlhash_buckets(self); ++i) {
         count += dlist_size(&self->bucket_[i]);
     }
+
     return count;
 }
 
 static inline void dlhash_insert(struct dlhash *self, struct dlnode *x, void *e)
 {
     size_t n = __dlhash_index(self, e);
+
     dlist_push_front(&self->bucket_[n], x, e);
 }
 
@@ -102,26 +108,31 @@ static inline struct dlnode *dlhash_find(const struct dlhash *self,
 {
     struct dlnode *x;
     size_t n = __dlhash_index(self, ke);
+
     for (x = dlhash_begin(self, n); x != dlhash_end(self, n); x = x->next_) {
         if (self->compar_(ke, x->entry_) == 0) {
             return x;
         }
     }
+
     return NULL;
 }
 
 static inline void *dlhash_at(const struct dlhash *self, const void *ke)
 {
     struct dlnode *x = dlhash_find(self, ke);
+
     return x == NULL ? NULL : x->entry_;
 }
 
 static inline struct dlnode *dlhash_remove(struct dlhash *self, const void *ke)
 {
     struct dlnode *x = dlhash_find(self, ke);
+
     if (x == NULL) {
         return NULL;
     }
+
     dlhash_erase(self, x);
     return x;
 }
@@ -129,12 +140,14 @@ static inline struct dlnode *dlhash_remove(struct dlhash *self, const void *ke)
 static inline size_t dlhash_count(const struct dlhash *self, const void *ke)
 {
     size_t n = __dlhash_index(self, ke);
+
     return dlist_size(&self->bucket_[n]);
 }
 
 static inline void dlhash_swap(struct dlhash *self, struct dlhash *other)
 {
     struct dlhash tmp;
+
     memcpy(&tmp, self, sizeof(tmp));
     memcpy(self, other, sizeof(tmp));
     memcpy(other, &tmp, sizeof(tmp));

@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -76,10 +77,13 @@ static inline void deque_push_front(struct deque *self, void *e)
     if (deque_full(self)) {
         return;
     }
+
     self->front_++;
+
     if (self->front_ == self->nr_entries_) {
         self->front_ = 0;
     }
+
     self->entry_[self->front_] = e;
     self->size_++;
 }
@@ -89,6 +93,7 @@ static inline void deque_push_back(struct deque *self, void *e)
     if (deque_full(self)) {
         return;
     }
+
     self->back_ = self->back_ == 0 ? self->nr_entries_ - 1 : self->back_ - 1;
     self->entry_[self->back_] = e;
     self->size_++;
@@ -99,6 +104,7 @@ static inline void *deque_pop_front(struct deque *self)
     if (deque_empty(self)) {
         return NULL;
     }
+
     void *e = self->entry_[self->front_];
     self->front_ = self->front_ == 0 ? self->nr_entries_ - 1 : self->front_ - 1;
     self->size_--;
@@ -110,6 +116,7 @@ static inline void *deque_pop_back(struct deque *self)
     if (deque_empty(self)) {
         return NULL;
     }
+
     void *e = self->entry_[self->back_++];
     self->back_ = self->back_ == self->nr_entries_ ? 0 : self->back_;
     self->size_--;
@@ -119,6 +126,7 @@ static inline void *deque_pop_back(struct deque *self)
 static inline void deque_swap(struct deque *self, struct deque *other)
 {
     struct deque tmp;
+
     memcpy(&tmp, self, sizeof(tmp));
     memcpy(self, other, sizeof(tmp));
     memcpy(other, &tmp, sizeof(tmp));

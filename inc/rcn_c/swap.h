@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -17,6 +18,7 @@ static inline void swap(void *_a, void *_b, size_t size)
 {
     char *a = (char *)_a;
     char *b = (char *)_b;
+
     for (size_t i = 0; i < size; ++i) {
         char tmp = a[i];
         a[i] = b[i];

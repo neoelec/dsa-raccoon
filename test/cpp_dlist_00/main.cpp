@@ -6,6 +6,7 @@ struct TestData {
         : value_(value)
     {
     }
+
     rcn_cpp::dlnode<TestData> node_;
     int value_;
 };
@@ -22,6 +23,7 @@ protected:
         while (!list_->empty()) {
             delete list_->pop_front();
         }
+
         delete list_;
     }
 
@@ -144,10 +146,14 @@ TEST_F(DListTest, SizeAndEmpty)
 
 int TestDataCompare(const TestData *ke, const TestData *in_list)
 {
-    if (ke->value_ < in_list->value_)
+    if (ke->value_ < in_list->value_) {
         return -1;
-    if (ke->value_ > in_list->value_)
+    }
+
+    if (ke->value_ > in_list->value_) {
         return 1;
+    }
+
     return 0;
 }
 

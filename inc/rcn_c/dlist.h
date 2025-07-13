@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -76,9 +77,11 @@ static inline size_t dlist_size(const struct dlist *self)
 {
     struct dlnode *x;
     size_t count = 0;
+
     for (x = dlist_begin(self); x != dlist_end(self); x = x->next_) {
         count++;
     }
+
     return count;
 }
 
@@ -117,15 +120,18 @@ static inline void *dlist_pop_back(struct dlist *self)
 static inline void *dlist_at(const struct dlist *self, size_t n)
 {
     struct dlnode *x;
+
     for (x = dlist_begin(self); n != 0 && x != dlist_end(self); --n) {
         x = x->next_;
     }
+
     return x == dlist_end(self) ? NULL : x->entry_;
 }
 
 static inline void dlist_swap(struct dlist *self, struct dlist *other)
 {
     struct dlnode tmp;
+
     __dlist_insert_after(&self->pool_, &tmp);
     dlist_erase(&self->pool_);
     __dlist_insert_after(&other->pool_, &self->pool_);
@@ -139,23 +145,27 @@ static inline struct dlnode *dlist_remove_if(struct dlist *self, const void *ke,
                                                            const void *e))
 {
     struct dlnode *x;
+
     for (x = dlist_begin(self); x != dlist_end(self); x = x->next_) {
         if (compar(ke, x->entry_) == 0) {
             dlist_erase(x);
             return x;
         }
     }
+
     return NULL;
 }
 
 static inline void dlist_reverse(struct dlist *self)
 {
     struct dlnode tmp = { .prev_ = &tmp, .next_ = &tmp, .entry_ = NULL };
+
     while (!dlist_empty(self)) {
         struct dlnode *x = dlist_begin(self);
         dlist_pop_front(self);
         __dlist_insert_after(&tmp, x);
     }
+
     __dlist_insert_after(&tmp, &self->pool_);
     dlist_erase(&tmp);
 }

@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0+
-//
-// Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
-//
+/* SPDX-License-Identifier: GPL-2.0+ */
 
-// Singly Linked List
+/*
+ * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
+ */
+
+/* Singly Linked List */
 #ifndef __RCN_CPP_SLIST_H__
 #define __RCN_CPP_SLIST_H__
 
@@ -11,7 +12,6 @@
 
 namespace rcn_cpp
 {
-
 template <typename T>
 struct slnode {
     slnode<T> *next_;
@@ -34,6 +34,7 @@ struct slnode {
         if (next_ == nullptr) {
             return nullptr;
         }
+
         slnode<T> *x = next_;
         next_ = x->next_;
         return x->entry_;
@@ -72,9 +73,11 @@ public:
     {
         slnode<T> *x;
         size_t count = 0;
+
         for (x = begin(); x != end(); x = x->next_) {
             count++;
         }
+
         return count;
     }
 
@@ -96,15 +99,18 @@ public:
     T *at(size_t n) const
     {
         slnode<T> *x;
+
         for (x = begin(); n != 0 && x != end(); --n) {
             x = x->next_;
         }
+
         return x == end() ? nullptr : x->entry_;
     }
 
     void swap(slist<T> *other)
     {
         slnode<T> tmp;
+
         tmp.next_ = begin();
         pool_.next_ = other->begin();
         other->pool_.next_ = tmp.next_;
@@ -113,31 +119,35 @@ public:
     slnode<T> *remove_if(const T *ke, int (*compar)(const T *ke, const T *e))
     {
         slnode<T> *p, *x;
+
         p = &pool_;
+
         for (x = begin(); x != end(); p = x, x = x->next_) {
             if (compar(ke, x->entry_) == 0) {
                 p->erase_after();
                 return x;
             }
         }
+
         return nullptr;
     }
 
     void reverse()
     {
         slnode<T> tmp = { .next_ = nullptr, .entry_ = nullptr };
+
         while (!empty()) {
             slnode<T> *x = begin();
             pop_front();
             tmp.__insert_after(x);
         }
+
         pool_.next_ = tmp.next_;
     }
 
 private:
     slnode<T> pool_;
 };
-
 }
 
-#endif // __RCN_CPP_SLIST_H__
+#endif /* __RCN_CPP_SLIST_H__ */

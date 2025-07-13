@@ -6,6 +6,7 @@ struct TestData {
         : value_(value)
     {
     }
+
     rcn_c::dlnode node_;
     int value_;
 };
@@ -23,6 +24,7 @@ protected:
         while (!dlist_empty(list_)) {
             delete (TestData *)dlist_pop_front(list_);
         }
+
         delete list_;
     }
 
@@ -147,10 +149,15 @@ int TestDataCompare(const void *_ke, const void *_in_list)
 {
     auto ke = (const TestData *)_ke;
     auto *in_list = (const TestData *)_in_list;
-    if (ke->value_ < in_list->value_)
+
+    if (ke->value_ < in_list->value_) {
         return -1;
-    if (ke->value_ > in_list->value_)
+    }
+
+    if (ke->value_ > in_list->value_) {
         return 1;
+    }
+
     return 0;
 }
 
@@ -220,6 +227,7 @@ TEST_F(DListTest, Reverse)
 TEST_F(DListTest, Swap)
 {
     rcn_c::dlist other_list;
+
     dlist_init(&other_list);
 
     auto *data1 = new TestData(10);

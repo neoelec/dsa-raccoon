@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -23,9 +24,11 @@ static inline void *binary_search(const void *key, const void *base,
     int diff;
     left = 0;
     right = nmemb - 1;
+
     while (left <= right) {
         mid = (left + right) / 2;
         diff = compar(key, __base(mid));
+
         if (diff == 0) {
             return (void *)__base(mid);
         } else if (diff > 0) {
@@ -34,7 +37,9 @@ static inline void *binary_search(const void *key, const void *base,
             right = mid - 1;
         }
     }
+
     return NULL;
+
 #undef __base
 }
 

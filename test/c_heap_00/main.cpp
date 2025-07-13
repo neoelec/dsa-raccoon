@@ -20,10 +20,15 @@ protected:
     {
         int ke = *(int *)_ke;
         int in_heap = *(int *)_in_heap;
-        if (ke < in_heap)
+
+        if (ke < in_heap) {
             return -1;
-        if (ke > in_heap)
+        }
+
+        if (ke > in_heap) {
             return 1;
+        }
+
         return 0;
     }
 
@@ -50,10 +55,12 @@ TEST_F(HeapTest, Empty)
 TEST_F(HeapTest, Full)
 {
     int v[nr_entries_];
+
     for (size_t i = 0; i < nr_entries_; ++i) {
         v[i] = (int)(i + 1);
         heap_push(heap_, &v[i]);
     }
+
     ASSERT_TRUE(heap_full(heap_));
     heap_pop(heap_);
     ASSERT_FALSE(heap_full(heap_));
@@ -62,6 +69,7 @@ TEST_F(HeapTest, Full)
 TEST_F(HeapTest, PushPop)
 {
     int a = 1, b = 2, c = 3;
+
     heap_push(heap_, &a);
     heap_push(heap_, &b);
     heap_push(heap_, &c);
@@ -81,10 +89,12 @@ TEST_F(HeapTest, PushPop)
 TEST_F(HeapTest, Clear)
 {
     int v[nr_entries_];
+
     for (size_t i = 0; i < nr_entries_; ++i) {
         v[i] = (int)(i + 1);
         heap_push(heap_, &v[i]);
     }
+
     heap_clear(heap_);
     ASSERT_TRUE(heap_empty(heap_));
 }
@@ -92,6 +102,7 @@ TEST_F(HeapTest, Clear)
 TEST_F(HeapTest, FrontBack)
 {
     int a = 1, b = 2;
+
     heap_push(heap_, &a);
     heap_push(heap_, &b);
 
@@ -104,6 +115,7 @@ TEST_F(HeapTest, FrontBack)
 TEST_F(HeapTest, Swap)
 {
     rcn_c::heap other_heap;
+
     heap_init(&other_heap, nr_entries_, _ValueCompare, nullptr);
     heap_alloc_entry(&other_heap);
 

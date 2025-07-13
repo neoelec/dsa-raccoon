@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -62,6 +63,7 @@ static inline void *stack_top(const struct stack *self)
     if (stack_empty(self)) {
         return NULL;
     }
+
     return self->entry_[self->top_];
 }
 
@@ -70,6 +72,7 @@ static inline void stack_push(struct stack *self, void *e)
     if (stack_size(self) == self->nr_entries_) {
         return;
     }
+
     self->entry_[++self->top_] = e;
 }
 
@@ -78,12 +81,14 @@ static inline void *stack_pop(struct stack *self)
     if (stack_empty(self)) {
         return NULL;
     }
+
     return self->entry_[self->top_--];
 }
 
 static inline void stack_swap(struct stack *self, struct stack *other)
 {
     struct stack tmp;
+
     memcpy(&tmp, self, sizeof(tmp));
     memcpy(self, other, sizeof(tmp));
     memcpy(other, &tmp, sizeof(tmp));

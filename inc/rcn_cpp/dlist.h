@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0+
-//
-// Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
-//
+/* SPDX-License-Identifier: GPL-2.0+ */
 
-// Doubly Linked List
+/*
+ * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
+ */
+
+/* Doubly Linked List */
 #ifndef __RCN_CPP_DLIST_H__
 #define __RCN_CPP_DLIST_H__
 
@@ -11,7 +12,6 @@
 
 namespace rcn_cpp
 {
-
 template <typename T>
 struct dlnode {
     dlnode<T> *prev_;
@@ -77,9 +77,11 @@ public:
     {
         dlnode<T> *x;
         size_t count = 0;
+
         for (x = begin(); x != end(); x = x->next_) {
             count++;
         }
+
         return count;
     }
 
@@ -116,15 +118,18 @@ public:
     T *at(size_t n) const
     {
         dlnode<T> *x;
+
         for (x = begin(); n != 0 && x != end(); --n) {
             x = x->next_;
         }
+
         return x == end() ? nullptr : x->entry_;
     }
 
     void swap(dlist<T> *other)
     {
         dlnode<T> head;
+
         pool_.__insert_after(&head);
         pool_.erase();
         other->pool_.__insert_after(&pool_);
@@ -136,23 +141,27 @@ public:
     dlnode<T> *remove_if(const T *ke, int (*compar)(const T *ke, const T *e))
     {
         dlnode<T> *x;
+
         for (x = begin(); x != end(); x = x->next_) {
             if (compar(ke, x->entry_) == 0) {
                 x->erase();
                 return x;
             }
         }
+
         return nullptr;
     }
 
     void reverse()
     {
         dlnode<T> tmp = { .prev_ = &tmp, .next_ = &tmp, .entry_ = nullptr };
+
         while (!empty()) {
             dlnode<T> *x = begin();
             pop_front();
             tmp.__insert_after(x);
         }
+
         tmp.__insert_after(&pool_);
         tmp.erase();
     }
@@ -160,7 +169,6 @@ public:
 private:
     dlnode<T> pool_;
 };
-
 }
 
-#endif // __RCN_CPP_DLIST_H__
+#endif /* __RCN_CPP_DLIST_H__ */

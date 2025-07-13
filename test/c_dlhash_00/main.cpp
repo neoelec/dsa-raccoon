@@ -6,6 +6,7 @@ struct TestData {
         : value_(value)
     {
     }
+
     rcn_c::dlnode node_;
     int value_;
 };
@@ -36,6 +37,7 @@ protected:
     static size_t _KeyHash(const void *_ke)
     {
         auto *ke = (const TestData *)_ke;
+
         return ke->value_;
     }
 
@@ -43,10 +45,15 @@ protected:
     {
         auto ke = (const TestData *)_ke;
         auto *in_table = (const TestData *)_in_table;
-        if (ke->value_ < in_table->value_)
+
+        if (ke->value_ < in_table->value_) {
             return -1;
-        if (ke->value_ > in_table->value_)
+        }
+
+        if (ke->value_ > in_table->value_) {
             return 1;
+        }
+
         return 0;
     }
 
@@ -57,6 +64,7 @@ protected:
 TEST_F(DLHashTest, Init)
 {
     const size_t sz_bucket = sz_bucket_;
+
     ASSERT_EQ(dlhash_buckets(table_), sz_bucket);
     ASSERT_EQ(dlhash_size(table_), 0);
 }
@@ -189,6 +197,7 @@ TEST_F(DLHashTest, Count)
 TEST_F(DLHashTest, Swap)
 {
     rcn_c::dlhash other_table_;
+
     dlhash_init(&other_table_, 23, _KeyHash, _ValueCompare, nullptr);
     dlhash_alloc_bucket(&other_table_);
 

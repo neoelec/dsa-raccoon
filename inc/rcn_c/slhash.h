@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -35,6 +36,7 @@ static inline void slhash_clear(struct slhash *self)
     if (self->bucket_ == NULL) {
         return;
     }
+
     for (size_t i = 0; i < self->sz_bucket_; ++i) {
         slist_clear(&self->bucket_[i]);
     }
@@ -74,21 +76,25 @@ static inline bool slhash_empty(const struct slhash *self)
             return false;
         }
     }
+
     return true;
 }
 
 static inline size_t slhash_size(const struct slhash *self)
 {
     size_t count = 0;
+
     for (size_t i = 0; i < slhash_buckets(self); ++i) {
         count += slist_size(&self->bucket_[i]);
     }
+
     return count;
 }
 
 static inline void slhash_insert(struct slhash *self, struct slnode *x, void *e)
 {
     size_t n = __slhash_index(self, e);
+
     slist_push_front(&self->bucket_[n], x, e);
 }
 
@@ -97,29 +103,34 @@ static inline struct slnode *slhash_find(const struct slhash *self,
 {
     struct slnode *x;
     size_t n = __slhash_index(self, ke);
+
     for (x = slhash_begin(self, n); x != slhash_end(self, n); x = x->next_) {
         if (self->compar_(ke, x->entry_) == 0) {
             return x;
         }
     }
+
     return NULL;
 }
 
 static inline void *slhash_at(const struct slhash *self, const void *ke)
 {
     struct slnode *x = slhash_find(self, ke);
+
     return x == NULL ? NULL : x->entry_;
 }
 
 static inline size_t slhash_count(const struct slhash *self, const void *ke)
 {
     size_t n = __slhash_index(self, ke);
+
     return slist_size(&self->bucket_[n]);
 }
 
 static inline void slhash_swap(struct slhash *self, struct slhash *other)
 {
     struct slhash tmp;
+
     memcpy(&tmp, self, sizeof(tmp));
     memcpy(self, other, sizeof(tmp));
     memcpy(other, &tmp, sizeof(tmp));

@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -15,9 +16,11 @@ static inline unsigned long long sdbm_hash(const char *str)
 
 {
     unsigned long long hash = 0;
+
     while (*str != '\0') {
         hash = (*str++) + (hash << 6) + (hash << 16) - hash;
     }
+
     return hash;
 }
 

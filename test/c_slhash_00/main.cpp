@@ -6,6 +6,7 @@ struct TestData {
         : value_(value)
     {
     }
+
     rcn_c::slnode node_;
     int value_;
 };
@@ -28,6 +29,7 @@ protected:
     static size_t _KeyHash(const void *_ke)
     {
         auto *ke = (const TestData *)_ke;
+
         return ke->value_;
     }
 
@@ -35,10 +37,15 @@ protected:
     {
         auto ke = (const TestData *)_ke;
         auto *in_table = (const TestData *)_in_table;
-        if (ke->value_ < in_table->value_)
+
+        if (ke->value_ < in_table->value_) {
             return -1;
-        if (ke->value_ > in_table->value_)
+        }
+
+        if (ke->value_ > in_table->value_) {
             return 1;
+        }
+
         return 0;
     }
 
@@ -49,6 +56,7 @@ protected:
 TEST_F(SLHashTest, Init)
 {
     const size_t sz_bucket = sz_bucket_;
+
     ASSERT_EQ(slhash_buckets(table_), sz_bucket);
     ASSERT_EQ(slhash_size(table_), 0);
 }

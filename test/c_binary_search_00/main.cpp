@@ -14,6 +14,7 @@ TEST(BinarySearchTest, EmptyArray)
     int arr[] = {};
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
+
     ASSERT_EQ(nullptr, result);
 }
 
@@ -23,6 +24,7 @@ TEST(BinarySearchTest, SingleElementFound)
     int arr[] = { 5 };
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
+
     ASSERT_NE(nullptr, result);
     ASSERT_EQ(key, *(int *)result);
 }
@@ -33,6 +35,7 @@ TEST(BinarySearchTest, SingleElementNotFound)
     int arr[] = { 10 };
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
+
     ASSERT_EQ(nullptr, result);
 }
 
@@ -42,6 +45,7 @@ TEST(BinarySearchTest, MultipleElementsFound)
     int arr[] = { 1, 3, 5, 7, 9 };
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
+
     ASSERT_NE(nullptr, result);
     ASSERT_EQ(key, *(int *)result);
 }
@@ -52,6 +56,7 @@ TEST(BinarySearchTest, MultipleElementsNotFound)
     int arr[] = { 1, 3, 5, 7, 9 };
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
+
     ASSERT_EQ(nullptr, result);
 }
 
@@ -61,6 +66,7 @@ TEST(BinarySearchTest, MultipleElementsFoundFirst)
     int arr[] = { 1, 3, 5, 7, 9 };
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
+
     ASSERT_NE(nullptr, result);
     ASSERT_EQ(key, *(int *)result);
 }
@@ -71,6 +77,7 @@ TEST(BinarySearchTest, MultipleElementsFoundLast)
     int arr[] = { 1, 3, 5, 7, 9 };
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
+
     ASSERT_NE(nullptr, result);
     ASSERT_EQ(key, *(int *)result);
 }
@@ -79,9 +86,11 @@ TEST(BinarySearchTest, LargeArrayFound)
 {
     int key = 500;
     int arr[1000];
+
     for (size_t i = 0; i < NR_ELEM(arr); ++i) {
         arr[i] = i;
     }
+
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
     ASSERT_NE(nullptr, result);
@@ -92,9 +101,11 @@ TEST(BinarySearchTest, LargeArrayNotFound)
 {
     int key = 1000;
     int arr[1000];
+
     for (size_t i = 0; i < NR_ELEM(arr); ++i) {
         arr[i] = i;
     }
+
     void *result = rcn_c::binary_search(&key, arr, NR_ELEM(arr), sizeof(arr[0]),
                                         IntCompar);
     ASSERT_EQ(nullptr, result);

@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0+
-//
-// Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
-//
+/* SPDX-License-Identifier: GPL-2.0+ */
 
-// Queue (Array)
+/*
+ * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
+ */
+
+/* Queue (Array) */
 #ifndef __RCN_CPP_QUEUE_H__
 #define __RCN_CPP_QUEUE_H__
 
@@ -13,7 +14,6 @@
 
 namespace rcn_cpp
 {
-
 template <typename T>
 class queue {
 public:
@@ -70,6 +70,7 @@ public:
         if (full()) {
             return;
         }
+
         back_ = back_ == 0 ? nr_entries_ - 1 : back_ - 1;
         entry_[back_] = e;
         size_++;
@@ -80,6 +81,7 @@ public:
         if (empty()) {
             return nullptr;
         }
+
         T *e = entry_[front_];
         front_ = front_ == 0 ? nr_entries_ - 1 : front_ - 1;
         size_--;
@@ -89,6 +91,7 @@ public:
     void swap(queue *other)
     {
         queue tmp;
+
         memcpy(&tmp, this, sizeof(tmp));
         memcpy(this, other, sizeof(tmp));
         memcpy(other, &tmp, sizeof(tmp));
@@ -112,7 +115,6 @@ private:
     size_t back_;
     size_t size_;
 };
-
 }
 
-#endif // __RCN_CPP_QUEUE_H__
+#endif /* __RCN_CPP_QUEUE_H__ */

@@ -6,6 +6,7 @@ struct TestData {
         : value_(value)
     {
     }
+
     rcn_cpp::slnode<TestData> node_;
     int value_;
 };
@@ -32,10 +33,14 @@ protected:
 
     static int _ValueCompare(const TestData *ke, const TestData *in_table)
     {
-        if (ke->value_ < in_table->value_)
+        if (ke->value_ < in_table->value_) {
             return -1;
-        if (ke->value_ > in_table->value_)
+        }
+
+        if (ke->value_ > in_table->value_) {
             return 1;
+        }
+
         return 0;
     }
 
@@ -46,6 +51,7 @@ protected:
 TEST_F(SLHashTest, Init)
 {
     const size_t sz_bucket = sz_bucket_;
+
     ASSERT_EQ(table_->buckets(), sz_bucket);
     ASSERT_EQ(table_->size(), 0);
 }
@@ -155,6 +161,7 @@ TEST_F(SLHashTest, Count)
 TEST_F(SLHashTest, Swap)
 {
     rcn_cpp::slhash<TestData> other_table(23, _KeyHash, _ValueCompare);
+
     other_table.alloc_bucket();
 
     auto *data1 = new TestData(10);

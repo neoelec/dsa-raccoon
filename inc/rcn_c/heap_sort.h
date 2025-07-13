@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -28,20 +29,25 @@ static inline void __down_heap(void *base, size_t nmemb, size_t pos,
 #define __base(n) (&((char *)base)[(n) * size])
     size_t child, left, right;
     left = __heap_left(pos);
+
     while (left < nmemb) {
         right = left + 1;
+
         if (right == nmemb) {
             child = left;
         } else {
             child = compar(__base(left), __base(right)) > 0 ? left : right;
         }
+
         if (compar(__base(pos), __base(child)) > 0) {
             break;
         }
+
         swap(__base(child), __base(pos), size);
         pos = child;
         left = __heap_left(pos);
     }
+
 #undef __base
 }
 
@@ -49,13 +55,16 @@ static inline void heap_sort(void *base, size_t nmemb, size_t size,
                              int (*compar)(const void *a, const void *b))
 {
 #define __base(n) (&((char *)base)[(n) * size])
+
     for (ssize_t i = nmemb / 2 - 1; i >= 0; --i) {
         __down_heap(base, nmemb, i, size, compar);
     }
+
     for (ssize_t i = nmemb - 1; i >= 0; --i) {
         swap(__base(0), __base(i), size);
         __down_heap(base, i, 0, size, compar);
     }
+
 #undef __base
 }
 

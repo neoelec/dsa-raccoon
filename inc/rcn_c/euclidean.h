@@ -1,5 +1,5 @@
-
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -21,11 +21,13 @@ static inline unsigned long long euclidean_gcd(unsigned long long a,
         a = b;
         b = tmp;
     }
+
     while (b != 0) {
         unsigned long long r = a % b;
         a = b;
         b = r;
     }
+
     return a;
 }
 

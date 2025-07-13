@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0+
-//
-// Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
-//
+/* SPDX-License-Identifier: GPL-2.0+ */
 
-// Stack (Array)
+/*
+ * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
+ */
+
+/* Stack (Array) */
 #ifndef __RCN_CPP_STACK_H__
 #define __RCN_CPP_STACK_H__
 
@@ -13,7 +14,6 @@
 
 namespace rcn_cpp
 {
-
 template <typename T>
 class stack {
 public:
@@ -58,6 +58,7 @@ public:
         if (empty()) {
             return nullptr;
         }
+
         return entry_[top_];
     }
 
@@ -66,6 +67,7 @@ public:
         if (size() == nr_entries_) {
             return;
         }
+
         entry_[++top_] = e;
     }
 
@@ -74,12 +76,14 @@ public:
         if (empty()) {
             return nullptr;
         }
+
         return entry_[top_--];
     }
 
     void swap(stack *other)
     {
         stack tmp;
+
         memcpy(&tmp, this, sizeof(tmp));
         memcpy(this, other, sizeof(tmp));
         memcpy(other, &tmp, sizeof(tmp));
@@ -101,7 +105,6 @@ private:
     T **entry_;
     size_t top_;
 };
-
 }
 
-#endif // __RCN_CPP_STACK_H__
+#endif /* __RCN_CPP_STACK_H__ */

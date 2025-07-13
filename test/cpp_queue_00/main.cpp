@@ -39,10 +39,12 @@ TEST_F(QueueTest, Empty)
 TEST_F(QueueTest, Full)
 {
     int v[nr_entries_];
+
     for (size_t i = 0; i < nr_entries_; ++i) {
         v[i] = (int)(i + 1);
         queue_->push(&v[i]);
     }
+
     ASSERT_TRUE(queue_->full());
     queue_->pop();
     ASSERT_FALSE(queue_->full());
@@ -51,6 +53,7 @@ TEST_F(QueueTest, Full)
 TEST_F(QueueTest, PushPop)
 {
     int a = 1, b = 2, c = 3;
+
     queue_->push(&a);
     queue_->push(&b);
     queue_->push(&c);
@@ -71,10 +74,12 @@ TEST_F(QueueTest, PushPop)
 TEST_F(QueueTest, Clear)
 {
     int v[nr_entries_];
+
     for (size_t i = 0; i < nr_entries_; ++i) {
         v[i] = (int)(i + 1);
         queue_->push(&v[i]);
     }
+
     queue_->clear();
     ASSERT_TRUE(queue_->empty());
 }
@@ -82,6 +87,7 @@ TEST_F(QueueTest, Clear)
 TEST_F(QueueTest, FrontBack)
 {
     int a = 1, b = 2;
+
     queue_->push(&a);
     queue_->push(&b);
 
@@ -96,6 +102,7 @@ TEST_F(QueueTest, FrontBack)
 TEST_F(QueueTest, Swap)
 {
     rcn_cpp::queue<int> other_queue(nr_entries_);
+
     other_queue.alloc_entry();
 
     int a = 1, b = 2;

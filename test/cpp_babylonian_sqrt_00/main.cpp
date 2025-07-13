@@ -9,6 +9,7 @@ TEST(BabylonianSqrtTest, PositiveNumber)
     float tolerance = 0.0001;
     float expected = 5.0;
     float result = rcn_cpp::babylonian_sqrt<float>(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -18,6 +19,7 @@ TEST(BabylonianSqrtTest, Zero)
     float tolerance = 0.0001;
     float expected = 0.0;
     float result = rcn_cpp::babylonian_sqrt<float>(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -27,6 +29,7 @@ TEST(BabylonianSqrtTest, NegativeNumber)
     float tolerance = 0.0001;
     float expected = 0.0;
     float result = rcn_cpp::babylonian_sqrt<float>(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -36,6 +39,7 @@ TEST(BabylonianSqrtTest, LargeNumber)
     float tolerance = 0.0001;
     float expected = 1000.0;
     float result = rcn_cpp::babylonian_sqrt<float>(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -45,6 +49,7 @@ TEST(BabylonianSqrtTest, SmallNumber)
     float tolerance = 0.0001;
     float expected = 0.01;
     float result = rcn_cpp::babylonian_sqrt<float>(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -54,6 +59,7 @@ TEST(BabylonianSqrtTest, DifferentTolerance)
     float tolerance = 0.000001;
     float expected = 5.0;
     float result = rcn_cpp::babylonian_sqrt<float>(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 

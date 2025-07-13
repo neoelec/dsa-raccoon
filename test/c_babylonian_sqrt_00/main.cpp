@@ -9,6 +9,7 @@ TEST(BabylonianSqrtTest, PositiveNumber)
     double tolerance = 0.0001;
     double expected = 5.0;
     double result = rcn_c::babylonian_sqrt(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -18,6 +19,7 @@ TEST(BabylonianSqrtTest, Zero)
     double tolerance = 0.0001;
     double expected = 0.0;
     double result = rcn_c::babylonian_sqrt(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -27,6 +29,7 @@ TEST(BabylonianSqrtTest, NegativeNumber)
     double tolerance = 0.0001;
     double expected = 0.0;
     double result = rcn_c::babylonian_sqrt(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -36,6 +39,7 @@ TEST(BabylonianSqrtTest, LargeNumber)
     double tolerance = 0.0001;
     double expected = 1000.0;
     double result = rcn_c::babylonian_sqrt(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -45,6 +49,7 @@ TEST(BabylonianSqrtTest, SmallNumber)
     double tolerance = 0.0001;
     double expected = 0.01;
     double result = rcn_c::babylonian_sqrt(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 
@@ -54,6 +59,7 @@ TEST(BabylonianSqrtTest, DifferentTolerance)
     double tolerance = 0.000001;
     double expected = 5.0;
     double result = rcn_c::babylonian_sqrt(S, tolerance);
+
     ASSERT_NEAR(expected, result, tolerance);
 }
 

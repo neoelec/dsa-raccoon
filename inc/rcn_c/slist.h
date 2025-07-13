@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  */
@@ -38,6 +39,7 @@ static inline void *slist_erase_after(struct slnode *pos)
     if (pos->next_ == NULL) {
         return NULL;
     }
+
     struct slnode *x = pos->next_;
     pos->next_ = x->next_;
     return x->entry_;
@@ -76,9 +78,11 @@ static inline size_t slist_size(const struct slist *self)
 {
     struct slnode *x;
     size_t count = 0;
+
     for (x = slist_begin(self); x != slist_end(self); x = x->next_) {
         count++;
     }
+
     return count;
 }
 
@@ -101,15 +105,18 @@ static inline void *slist_pop_front(struct slist *self)
 static inline void *slist_at(const struct slist *self, size_t n)
 {
     struct slnode *x;
+
     for (x = slist_begin(self); n != 0 && x != slist_end(self); --n) {
         x = x->next_;
     }
+
     return x == slist_end(self) ? NULL : x->entry_;
 }
 
 static inline void slist_swap(struct slist *self, struct slist *other)
 {
     struct slnode tmp;
+
     tmp.next_ = slist_begin(self);
     self->pool_.next_ = slist_begin(other);
     other->pool_.next_ = tmp.next_;
@@ -120,24 +127,29 @@ static inline struct slnode *slist_remove_if(struct slist *self, const void *ke,
                                                            const void *e))
 {
     struct slnode *p, *x;
+
     p = &self->pool_;
+
     for (x = slist_begin(self); x != slist_end(self); p = x, x = x->next_) {
         if (compar(ke, x->entry_) == 0) {
             slist_erase_after(p);
             return x;
         }
     }
+
     return NULL;
 }
 
 static inline void slist_reverse(struct slist *self)
 {
     struct slnode head = { .next_ = NULL, .entry_ = NULL };
+
     while (!slist_empty(self)) {
         struct slnode *x = slist_begin(self);
         slist_pop_front(self);
         __slist_insert_after(&head, x);
     }
+
     self->pool_.next_ = head.next_;
 }
 

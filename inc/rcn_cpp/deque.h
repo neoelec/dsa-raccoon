@@ -1,9 +1,10 @@
-// SPDX-License-Identifier: GPL-2.0+
-//
-// Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
-//
+/* SPDX-License-Identifier: GPL-2.0+ */
 
-// Deque (Array)
+/*
+ * Copyright (c) 2024-2025 YOUNGJIN JOO (neoelec@gmail.com)
+ */
+
+/* Deque (Array) */
 #ifndef __RCN_CPP_DEQUE_H__
 #define __RCN_CPP_DEQUE_H__
 
@@ -13,7 +14,6 @@
 
 namespace rcn_cpp
 {
-
 template <typename T>
 class deque {
 public:
@@ -70,10 +70,13 @@ public:
         if (full()) {
             return;
         }
+
         front_++;
+
         if (front_ == nr_entries_) {
             front_ = 0;
         }
+
         entry_[front_] = e;
         size_++;
     }
@@ -83,6 +86,7 @@ public:
         if (full()) {
             return;
         }
+
         back_ = back_ == 0 ? nr_entries_ - 1 : back_ - 1;
         entry_[back_] = e;
         size_++;
@@ -93,6 +97,7 @@ public:
         if (empty()) {
             return nullptr;
         }
+
         T *e = entry_[front_];
         front_ = front_ == 0 ? nr_entries_ - 1 : front_ - 1;
         size_--;
@@ -104,6 +109,7 @@ public:
         if (empty()) {
             return nullptr;
         }
+
         T *e = entry_[back_++];
         back_ = back_ == nr_entries_ ? 0 : back_;
         size_--;
@@ -113,6 +119,7 @@ public:
     void swap(deque *other)
     {
         deque tmp;
+
         memcpy(&tmp, this, sizeof(tmp));
         memcpy(this, other, sizeof(tmp));
         memcpy(other, &tmp, sizeof(tmp));
@@ -136,7 +143,6 @@ private:
     size_t back_;
     size_t size_;
 };
-
 }
 
-#endif // __RCN_CPP_DEQUE_H__
+#endif /* __RCN_CPP_DEQUE_H__ */

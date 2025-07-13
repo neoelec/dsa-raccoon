@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
+
 /*
  * Copyright (c) 2025 YOUNGJIN JOO (neoelec@gmail.com)
  *
@@ -21,6 +22,7 @@ static inline unsigned int ilog2(unsigned int x)
                                             11, 14, 16, 18, 22, 25, 3,  30,
                                             8,  12, 20, 28, 15, 17, 24, 7,
                                             19, 27, 23, 6,  26, 5,  4,  31 };
+
     x |= x >> 1;
     x |= x >> 2;
     x |= x >> 4;
@@ -37,6 +39,7 @@ static inline unsigned long long ilog2ll(unsigned long long x)
         62, 57, 46, 52, 38, 26, 32, 41, 50, 36, 17, 19, 29, 10, 13, 21,
         56, 45, 25, 31, 35, 16, 9,  12, 44, 24, 15, 8,  23, 7,  6,  5
     };
+
     x |= x >> 1;
     x |= x >> 2;
     x |= x >> 4;

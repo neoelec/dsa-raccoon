@@ -32,6 +32,7 @@ TEST_F(DequeTest, Init)
 TEST_F(DequeTest, PushFront)
 {
     int a = 1, b = 2, c = 3;
+
     deque_push_front(deque_, &a);
     ASSERT_EQ(deque_size(deque_), 1);
     ASSERT_EQ(deque_front(deque_), &a);
@@ -48,6 +49,7 @@ TEST_F(DequeTest, PushFront)
 TEST_F(DequeTest, PushBack)
 {
     int a = 1, b = 2, c = 3;
+
     deque_push_back(deque_, &a);
     ASSERT_EQ(deque_size(deque_), 1);
     ASSERT_EQ(deque_back(deque_), &a);
@@ -64,6 +66,7 @@ TEST_F(DequeTest, PushBack)
 TEST_F(DequeTest, PopFront)
 {
     int a = 1, b = 2, c = 3;
+
     deque_push_front(deque_, &a);
     deque_push_front(deque_, &b);
     deque_push_front(deque_, &c);
@@ -80,6 +83,7 @@ TEST_F(DequeTest, PopFront)
 TEST_F(DequeTest, PopBack)
 {
     int a = 1, b = 2, c = 3;
+
     deque_push_back(deque_, &a);
     deque_push_back(deque_, &b);
     deque_push_back(deque_, &c);
@@ -96,6 +100,7 @@ TEST_F(DequeTest, PopBack)
 TEST_F(DequeTest, FrontAndBack)
 {
     int a = 1, b = 2, c = 3;
+
     deque_push_front(deque_, &a);
     ASSERT_EQ(deque_front(deque_), &a);
     ASSERT_EQ(deque_back(deque_), &a);
@@ -112,6 +117,7 @@ TEST_F(DequeTest, FrontAndBack)
 TEST_F(DequeTest, FullAndClear)
 {
     int a = 1, b = 2, c = 3, d = 4, e = 5;
+
     deque_push_front(deque_, &a);
     deque_push_front(deque_, &b);
     deque_push_front(deque_, &c);
@@ -127,6 +133,7 @@ TEST_F(DequeTest, FullAndClear)
 TEST_F(DequeTest, Swap)
 {
     rcn_c::deque other_deque;
+
     deque_init(&other_deque, nr_entries_, nullptr);
     deque_alloc_entry(&other_deque);
 
