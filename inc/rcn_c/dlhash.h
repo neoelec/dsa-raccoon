@@ -153,7 +153,7 @@ static inline void dlhash_swap(struct dlhash *self, struct dlhash *other)
     memcpy(other, &tmp, sizeof(tmp));
 }
 
-static inline int dlhash_alloc_bucket(struct dlhash *self)
+static inline int __dlhash_alloc_bucket(struct dlhash *self)
 {
     self->bucket_ =
         (struct dlist *)calloc(self->sz_bucket_, sizeof(*self->bucket_));
@@ -161,7 +161,7 @@ static inline int dlhash_alloc_bucket(struct dlhash *self)
     return self->bucket_ == NULL ? -ENOMEM : 0;
 }
 
-static inline void dlhash_free_bucket(struct dlhash *self)
+static inline void __dlhash_free_bucket(struct dlhash *self)
 {
     free(self->bucket_);
 }

@@ -94,13 +94,13 @@ static inline void stack_swap(struct stack *self, struct stack *other)
     memcpy(other, &tmp, sizeof(tmp));
 }
 
-static inline int stack_alloc_entry(struct stack *self)
+static inline int __stack_alloc_entry(struct stack *self)
 {
     self->entry_ = (void **)calloc(self->nr_entries_, sizeof(*self->entry_));
     return self->entry_ == NULL ? -ENOMEM : 0;
 }
 
-static inline void stack_free_entry(struct stack *self)
+static inline void __stack_free_entry(struct stack *self)
 {
     free(self->entry_);
 }

@@ -132,13 +132,13 @@ static inline void deque_swap(struct deque *self, struct deque *other)
     memcpy(other, &tmp, sizeof(tmp));
 }
 
-static inline int deque_alloc_entry(struct deque *self)
+static inline int __deque_alloc_entry(struct deque *self)
 {
     self->entry_ = (void **)calloc(self->nr_entries_, sizeof(*self->entry_));
     return self->entry_ == NULL ? -ENOMEM : 0;
 }
 
-static inline void deque_free_entry(struct deque *self)
+static inline void __deque_free_entry(struct deque *self)
 {
     free(self->entry_);
 }

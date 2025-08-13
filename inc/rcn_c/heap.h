@@ -151,13 +151,13 @@ static inline void heap_swap(struct heap *self, struct heap *other)
     memcpy(other, &tmp, sizeof(tmp));
 }
 
-static inline int heap_alloc_entry(struct heap *self)
+static inline int __heap_alloc_entry(struct heap *self)
 {
     self->entry_ = (void **)calloc(self->nr_entries_, sizeof(*self->entry_));
     return self->entry_ == NULL ? -ENOMEM : 0;
 }
 
-static inline void heap_free_entry(struct heap *self)
+static inline void __heap_free_entry(struct heap *self)
 {
     free(self->entry_);
 }

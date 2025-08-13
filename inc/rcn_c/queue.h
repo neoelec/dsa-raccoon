@@ -104,13 +104,13 @@ static inline void queue_swap(struct queue *self, struct queue *other)
     memcpy(other, &tmp, sizeof(tmp));
 }
 
-static inline int queue_alloc_entry(struct queue *self)
+static inline int __queue_alloc_entry(struct queue *self)
 {
     self->entry_ = (void **)calloc(self->nr_entries_, sizeof(*self->entry_));
     return self->entry_ == NULL ? -ENOMEM : 0;
 }
 
-static inline void queue_free_entry(struct queue *self)
+static inline void __queue_free_entry(struct queue *self)
 {
     free(self->entry_);
 }

@@ -136,7 +136,7 @@ static inline void slhash_swap(struct slhash *self, struct slhash *other)
     memcpy(other, &tmp, sizeof(tmp));
 }
 
-static inline int slhash_alloc_bucket(struct slhash *self)
+static inline int __slhash_alloc_bucket(struct slhash *self)
 {
     self->bucket_ =
         (struct slist *)calloc(self->sz_bucket_, sizeof(*self->bucket_));
@@ -144,7 +144,7 @@ static inline int slhash_alloc_bucket(struct slhash *self)
     return self->bucket_ == NULL ? -ENOMEM : 0;
 }
 
-static inline void slhash_free_bucket(struct slhash *self)
+static inline void __slhash_free_bucket(struct slhash *self)
 {
     free(self->bucket_);
 }
