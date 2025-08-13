@@ -7,12 +7,12 @@ protected:
     {
         deque_ = new rcn_c::deque;
         deque_init(deque_, nr_entries_, nullptr);
-        deque_alloc_entry(deque_);
+        __deque_alloc_entry(deque_);
     }
 
     void TearDown() override
     {
-        deque_free_entry(deque_);
+        __deque_free_entry(deque_);
         delete deque_;
     }
 
@@ -135,7 +135,7 @@ TEST_F(DequeTest, Swap)
     rcn_c::deque other_deque;
 
     deque_init(&other_deque, nr_entries_, nullptr);
-    deque_alloc_entry(&other_deque);
+    __deque_alloc_entry(&other_deque);
 
     int a = 1, b = 2;
     deque_push_front(deque_, &a);
@@ -152,7 +152,7 @@ TEST_F(DequeTest, Swap)
     ASSERT_EQ(deque_size(&other_deque), 1);
     ASSERT_EQ(deque_back(&other_deque), &a);
 
-    deque_free_entry(&other_deque);
+    __deque_free_entry(&other_deque);
 }
 
 int main(int argc, char **argv)

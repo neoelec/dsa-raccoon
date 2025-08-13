@@ -7,12 +7,12 @@ protected:
     {
         stack_ = new rcn_c::stack;
         stack_init(stack_, nr_entries_, nullptr);
-        stack_alloc_entry(stack_);
+        __stack_alloc_entry(stack_);
     }
 
     void TearDown() override
     {
-        stack_free_entry(stack_);
+        __stack_free_entry(stack_);
         delete stack_;
     }
 
@@ -87,7 +87,7 @@ TEST_F(StackTest, StackSwap)
     rcn_c::stack other_stack;
 
     stack_init(&other_stack, nr_entries_, nullptr);
-    stack_alloc_entry(&other_stack);
+    __stack_alloc_entry(&other_stack);
 
     int a = 1, b = 2;
     stack_push(stack_, &a);
@@ -101,7 +101,7 @@ TEST_F(StackTest, StackSwap)
     ASSERT_EQ(stack_size(&other_stack), 1);
     ASSERT_EQ(stack_top(&other_stack), &a);
 
-    stack_free_entry(&other_stack);
+    __stack_free_entry(&other_stack);
 }
 
 int main(int argc, char **argv)

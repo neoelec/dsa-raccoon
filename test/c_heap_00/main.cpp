@@ -7,12 +7,12 @@ protected:
     {
         heap_ = new rcn_c::heap;
         heap_init(heap_, nr_entries_, _ValueCompare, nullptr);
-        heap_alloc_entry(heap_);
+        __heap_alloc_entry(heap_);
     }
 
     void TearDown() override
     {
-        heap_free_entry(heap_);
+        __heap_free_entry(heap_);
         delete heap_;
     }
 
@@ -117,7 +117,7 @@ TEST_F(HeapTest, Swap)
     rcn_c::heap other_heap;
 
     heap_init(&other_heap, nr_entries_, _ValueCompare, nullptr);
-    heap_alloc_entry(&other_heap);
+    __heap_alloc_entry(&other_heap);
 
     int a = 1, b = 2;
     heap_push(heap_, &a);
@@ -132,7 +132,7 @@ TEST_F(HeapTest, Swap)
     ASSERT_EQ(heap_top(heap_), &c);
     ASSERT_EQ(heap_top(&other_heap), &a);
 
-    heap_free_entry(&other_heap);
+    __heap_free_entry(&other_heap);
 }
 
 int main(int argc, char **argv)

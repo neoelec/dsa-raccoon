@@ -17,7 +17,7 @@ protected:
     {
         table_ = new rcn_c::dlhash;
         dlhash_init(table_, sz_bucket_, _KeyHash, _ValueCompare, nullptr);
-        dlhash_alloc_bucket(table_);
+        __dlhash_alloc_bucket(table_);
     }
 
     void TearDown() override
@@ -30,7 +30,7 @@ protected:
             }
         }
 
-        dlhash_free_bucket(table_);
+        __dlhash_free_bucket(table_);
         delete table_;
     }
 
@@ -199,7 +199,7 @@ TEST_F(DLHashTest, Swap)
     rcn_c::dlhash other_table_;
 
     dlhash_init(&other_table_, 23, _KeyHash, _ValueCompare, nullptr);
-    dlhash_alloc_bucket(&other_table_);
+    __dlhash_alloc_bucket(&other_table_);
 
     auto *data1 = new TestData(10);
     auto *data2 = new TestData(20);
@@ -223,7 +223,7 @@ TEST_F(DLHashTest, Swap)
     ASSERT_EQ(dlhash_at(&other_table_, key), data1);
 
     delete data1;
-    dlhash_alloc_bucket(&other_table_);
+    __dlhash_alloc_bucket(&other_table_);
 }
 
 int main(int argc, char **argv)

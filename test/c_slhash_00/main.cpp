@@ -17,12 +17,12 @@ protected:
     {
         table_ = new rcn_c::slhash;
         slhash_init(table_, sz_bucket_, _KeyHash, _ValueCompare, nullptr);
-        slhash_alloc_bucket(table_);
+        __slhash_alloc_bucket(table_);
     }
 
     void TearDown() override
     {
-        slhash_free_bucket(table_);
+        __slhash_free_bucket(table_);
         delete table_;
     }
 
@@ -168,7 +168,7 @@ TEST_F(SLHashTest, Swap)
     rcn_c::slhash other_table_;
 
     slhash_init(&other_table_, 23, _KeyHash, _ValueCompare, nullptr);
-    slhash_alloc_bucket(&other_table_);
+    __slhash_alloc_bucket(&other_table_);
 
     auto *data1 = new TestData(10);
     auto *data2 = new TestData(20);
@@ -193,7 +193,7 @@ TEST_F(SLHashTest, Swap)
 
     delete data1;
     delete data2;
-    slhash_alloc_bucket(&other_table_);
+    __slhash_alloc_bucket(&other_table_);
 }
 
 int main(int argc, char **argv)

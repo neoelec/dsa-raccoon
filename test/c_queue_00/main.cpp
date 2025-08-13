@@ -7,12 +7,12 @@ protected:
     {
         queue_ = new rcn_c::queue;
         queue_init(queue_, nr_entries_, nullptr);
-        queue_alloc_entry(queue_);
+        __queue_alloc_entry(queue_);
     }
 
     void TearDown() override
     {
-        queue_free_entry(queue_);
+        __queue_free_entry(queue_);
         delete queue_;
     }
 
@@ -104,7 +104,7 @@ TEST_F(QueueTest, Swap)
     rcn_c::queue other_queue;
 
     queue_init(&other_queue, nr_entries_, nullptr);
-    queue_alloc_entry(&other_queue);
+    __queue_alloc_entry(&other_queue);
 
     int a = 1, b = 2;
     queue_push(queue_, &a);
@@ -122,7 +122,7 @@ TEST_F(QueueTest, Swap)
     ASSERT_EQ(queue_front(&other_queue), &a);
     ASSERT_EQ(queue_back(&other_queue), &b);
 
-    queue_free_entry(&other_queue);
+    __queue_free_entry(&other_queue);
 }
 
 int main(int argc, char **argv)
