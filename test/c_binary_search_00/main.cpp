@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 #include "rcn_c/binary_search.h"
-
-#define NR_ELEM(a) (sizeof(a) / sizeof(a[0]))
+#include "rcn_c/common.h"
 
 int IntCompar(const void *a, const void *b)
 {

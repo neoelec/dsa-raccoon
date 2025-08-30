@@ -2,9 +2,8 @@
 #include <cstring>
 
 #include "gtest/gtest.h"
+#include "rcn_c/common.h"
 #include "rcn_c/quick_sort.h"
-
-#define NR_ELEM(a) (sizeof(a) / sizeof(a[0]))
 
 int IntCompar(const void *a, const void *b)
 {
