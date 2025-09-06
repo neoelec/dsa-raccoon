@@ -24,7 +24,7 @@ struct deque {
     void **entry_;
     size_t front_;
     size_t back_;
-    size_t size_;
+    volatile size_t size_;
 };
 
 static inline void deque_clear(struct deque *self)

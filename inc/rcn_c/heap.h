@@ -24,7 +24,7 @@ struct heap {
     size_t nr_entries_;
     int (*compar_)(const void *ke, const void *in_heap);
     void **entry_;
-    size_t size_;
+    volatile size_t size_;
 };
 
 static inline size_t __heap_parent(size_t pos)

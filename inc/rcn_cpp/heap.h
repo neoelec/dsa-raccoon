@@ -160,7 +160,7 @@ private:
     size_t nr_entries_;
     int (*compar_)(const T *e, const T *in_heap);
     T **entry_;
-    size_t size_;
+    volatile size_t size_;
 };
 }
 

@@ -24,7 +24,7 @@ struct queue {
     void **entry_;
     size_t front_;
     size_t back_;
-    size_t size_;
+    volatile size_t size_;
 };
 
 static inline void queue_clear(struct queue *self)

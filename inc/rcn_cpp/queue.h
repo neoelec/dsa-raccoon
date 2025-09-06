@@ -113,7 +113,7 @@ private:
     T **entry_;
     size_t front_;
     size_t back_;
-    size_t size_;
+    volatile size_t size_;
 };
 }
 
