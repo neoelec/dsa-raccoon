@@ -71,8 +71,8 @@ TEST_F(DLHashTest, Init)
 
 TEST_F(DLHashTest, Find)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -90,8 +90,8 @@ TEST_F(DLHashTest, Find)
 
 TEST_F(DLHashTest, InsertAndAt)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -109,7 +109,7 @@ TEST_F(DLHashTest, InsertAndAt)
 
 TEST_F(DLHashTest, Erase)
 {
-    auto *data = new TestData(10);
+    auto data = new TestData(10);
 
     ASSERT_NE(data, nullptr);
 
@@ -125,7 +125,7 @@ TEST_F(DLHashTest, Erase)
 
 TEST_F(DLHashTest, Remove)
 {
-    auto *data = new TestData(10);
+    auto data = new TestData(10);
 
     ASSERT_NE(data, nullptr);
 
@@ -144,8 +144,8 @@ TEST_F(DLHashTest, EmptyAndSize)
     ASSERT_TRUE(dlhash_empty(table_));
     ASSERT_EQ(dlhash_size(table_), 0);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -162,8 +162,8 @@ TEST_F(DLHashTest, Clear)
     ASSERT_TRUE(dlhash_empty(table_));
     ASSERT_EQ(dlhash_size(table_), 0);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -182,8 +182,8 @@ TEST_F(DLHashTest, Clear)
 
 TEST_F(DLHashTest, Count)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -206,8 +206,8 @@ TEST_F(DLHashTest, Swap)
     dlhash_init(&other_table_, 23, _KeyHash, _ValueCompare, nullptr);
     __dlhash_alloc_bucket(&other_table_);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);

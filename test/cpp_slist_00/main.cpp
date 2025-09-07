@@ -38,8 +38,8 @@ TEST_F(SListTest, Init)
 
 TEST_F(SListTest, PushFront)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -57,8 +57,8 @@ TEST_F(SListTest, PushFront)
 
 TEST_F(SListTest, PopFront)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -79,9 +79,9 @@ TEST_F(SListTest, PopFront)
 
 TEST_F(SListTest, At)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -99,9 +99,9 @@ TEST_F(SListTest, At)
 
 TEST_F(SListTest, EraseAfter)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -124,7 +124,7 @@ TEST_F(SListTest, SizeAndEmpty)
     ASSERT_TRUE(list_->empty());
     ASSERT_EQ(list_->size(), 0);
 
-    auto *data = new TestData(10);
+    auto data = new TestData(10);
 
     ASSERT_NE(data, nullptr);
 
@@ -149,9 +149,9 @@ int TestDataCompare(const TestData *ke, const TestData *in_list)
 
 TEST_F(SListTest, RemoveIf)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -161,7 +161,7 @@ TEST_F(SListTest, RemoveIf)
     list_->push_front(&data2->node_, data2);
     list_->push_front(&data3->node_, data3);
 
-    auto *key = new TestData(20);
+    auto key = new TestData(20);
     auto removed_node = list_->remove_if(key, TestDataCompare);
     ASSERT_EQ(removed_node->entry_->value_, 20);
     ASSERT_NE(removed_node, nullptr);
@@ -191,9 +191,9 @@ TEST_F(SListTest, RemoveIf)
 
 TEST_F(SListTest, Reverse)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -214,10 +214,10 @@ TEST_F(SListTest, Swap)
 {
     rcn_cpp::slist<TestData> other_list;
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
-    auto *data4 = new TestData(40);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
+    auto data4 = new TestData(40);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -247,8 +247,8 @@ TEST_F(SListTest, Swap)
 
 TEST_F(SListTest, Clear)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);

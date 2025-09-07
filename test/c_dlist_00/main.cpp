@@ -39,9 +39,9 @@ TEST_F(DListTest, Init)
 
 TEST_F(DListTest, PushFrontAndBack)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -60,8 +60,8 @@ TEST_F(DListTest, PushFrontAndBack)
 
 TEST_F(DListTest, PopFrontAndBack)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -70,12 +70,12 @@ TEST_F(DListTest, PopFrontAndBack)
     dlist_push_back(list_, &data2->node_, data2);
     ASSERT_EQ(dlist_size(list_), 2);
 
-    auto *popped_front = (TestData *)dlist_pop_front(list_);
+    auto popped_front = (TestData *)dlist_pop_front(list_);
     ASSERT_EQ(popped_front->value_, 10);
     delete popped_front;
     ASSERT_EQ(dlist_size(list_), 1);
 
-    auto *popped_back = (TestData *)dlist_pop_back(list_);
+    auto popped_back = (TestData *)dlist_pop_back(list_);
     ASSERT_EQ(popped_back->value_, 20);
     delete popped_back;
     ASSERT_TRUE(dlist_empty(list_));
@@ -83,9 +83,9 @@ TEST_F(DListTest, PopFrontAndBack)
 
 TEST_F(DListTest, At)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -103,9 +103,9 @@ TEST_F(DListTest, At)
 
 TEST_F(DListTest, Erase)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -135,7 +135,7 @@ TEST_F(DListTest, SizeAndEmpty)
     ASSERT_TRUE(dlist_empty(list_));
     ASSERT_EQ(dlist_size(list_), 0);
 
-    auto *data = new TestData(10);
+    auto data = new TestData(10);
 
     ASSERT_NE(data, nullptr);
 
@@ -163,9 +163,9 @@ int TestDataCompare(const void *_ke, const void *_in_list)
 
 TEST_F(DListTest, RemoveIf)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -175,7 +175,7 @@ TEST_F(DListTest, RemoveIf)
     dlist_push_front(list_, &data2->node_, data2);
     dlist_push_front(list_, &data3->node_, data3);
 
-    auto *key = new TestData(20);
+    auto key = new TestData(20);
     auto removed_node = dlist_remove_if(list_, key, TestDataCompare);
     ASSERT_EQ(((TestData *)removed_node->entry_)->value_, 20);
     ASSERT_NE(removed_node, nullptr);
@@ -205,9 +205,9 @@ TEST_F(DListTest, RemoveIf)
 
 TEST_F(DListTest, Reverse)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -230,10 +230,10 @@ TEST_F(DListTest, Swap)
 
     dlist_init(&other_list);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
-    auto *data3 = new TestData(30);
-    auto *data4 = new TestData(40);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
+    auto data3 = new TestData(30);
+    auto data4 = new TestData(40);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -263,8 +263,8 @@ TEST_F(DListTest, Swap)
 
 TEST_F(DListTest, Clear)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);

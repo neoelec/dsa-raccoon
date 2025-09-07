@@ -66,8 +66,8 @@ TEST_F(DLHashTest, Init)
 
 TEST_F(DLHashTest, Find)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -85,8 +85,8 @@ TEST_F(DLHashTest, Find)
 
 TEST_F(DLHashTest, InsertAndAt)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -104,7 +104,7 @@ TEST_F(DLHashTest, InsertAndAt)
 
 TEST_F(DLHashTest, Erase)
 {
-    auto *data = new TestData(10);
+    auto data = new TestData(10);
 
     ASSERT_NE(data, nullptr);
 
@@ -120,7 +120,7 @@ TEST_F(DLHashTest, Erase)
 
 TEST_F(DLHashTest, Remove)
 {
-    auto *data = new TestData(10);
+    auto data = new TestData(10);
 
     ASSERT_NE(data, nullptr);
 
@@ -139,8 +139,8 @@ TEST_F(DLHashTest, EmptyAndSize)
     ASSERT_TRUE(table_->empty());
     ASSERT_EQ(table_->size(), 0);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -157,8 +157,8 @@ TEST_F(DLHashTest, Clear)
     ASSERT_TRUE(table_->empty());
     ASSERT_EQ(table_->size(), 0);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -177,8 +177,8 @@ TEST_F(DLHashTest, Clear)
 
 TEST_F(DLHashTest, Count)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -200,8 +200,8 @@ TEST_F(DLHashTest, Swap)
 
     other_table.alloc_bucket();
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);

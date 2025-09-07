@@ -58,8 +58,8 @@ TEST_F(SLHashTest, Init)
 
 TEST_F(SLHashTest, Find)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -78,8 +78,8 @@ TEST_F(SLHashTest, Find)
 
 TEST_F(SLHashTest, InsertAndAt)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -102,8 +102,8 @@ TEST_F(SLHashTest, EmptyAndSize)
     ASSERT_TRUE(table_->empty());
     ASSERT_EQ(table_->size(), 0);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -123,8 +123,8 @@ TEST_F(SLHashTest, Clear)
     ASSERT_TRUE(table_->empty());
     ASSERT_EQ(table_->size(), 0);
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -143,8 +143,8 @@ TEST_F(SLHashTest, Clear)
 
 TEST_F(SLHashTest, Count)
 {
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
@@ -164,8 +164,8 @@ TEST_F(SLHashTest, Swap)
 
     other_table.alloc_bucket();
 
-    auto *data1 = new TestData(10);
-    auto *data2 = new TestData(20);
+    auto data1 = new TestData(10);
+    auto data2 = new TestData(20);
 
     ASSERT_NE(data1, nullptr);
     ASSERT_NE(data2, nullptr);
