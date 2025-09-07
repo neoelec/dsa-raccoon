@@ -148,7 +148,7 @@ TEST_F(DListTest, SizeAndEmpty)
 int TestDataCompare(const void *_ke, const void *_in_list)
 {
     auto ke = (const TestData *)_ke;
-    auto *in_list = (const TestData *)_in_list;
+    auto in_list = (const TestData *)_in_list;
 
     if (ke->value_ < in_list->value_) {
         return -1;

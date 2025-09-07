@@ -36,7 +36,7 @@ protected:
 
     static size_t _KeyHash(const void *_ke)
     {
-        auto *ke = (const TestData *)_ke;
+        auto ke = (const TestData *)_ke;
 
         return ke->value_;
     }
@@ -44,7 +44,7 @@ protected:
     static int _ValueCompare(const void *_ke, const void *_in_table)
     {
         auto ke = (const TestData *)_ke;
-        auto *in_table = (const TestData *)_in_table;
+        auto in_table = (const TestData *)_in_table;
 
         if (ke->value_ < in_table->value_) {
             return -1;
