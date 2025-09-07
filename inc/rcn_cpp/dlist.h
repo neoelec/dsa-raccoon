@@ -63,7 +63,17 @@ public:
         return pool_.next_;
     }
 
+    dlnode<T> *rbegin() const
+    {
+        return pool_.prev_;
+    }
+
     const dlnode<T> *end() const
+    {
+        return &pool_;
+    }
+
+    const dlnode<T> *rend() const
     {
         return &pool_;
     }
@@ -92,7 +102,7 @@ public:
 
     T *back() const
     {
-        return empty() ? nullptr : end()->prev_->entry_;
+        return empty() ? nullptr : rbegin()->entry_;
     }
 
     void push_front(dlnode<T> *x, T *e)
@@ -102,7 +112,7 @@ public:
 
     void push_back(dlnode<T> *x, T *e)
     {
-        end()->prev_->insert_after(x, e);
+        rbegin()->insert_after(x, e);
     }
 
     T *pop_front()
@@ -112,7 +122,7 @@ public:
 
     T *pop_back()
     {
-        return end()->prev_->erase();
+        return rbegin()->erase();
     }
 
     T *at(size_t n) const
