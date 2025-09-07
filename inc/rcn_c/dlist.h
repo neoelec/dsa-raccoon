@@ -63,7 +63,17 @@ static inline struct dlnode *dlist_begin(const struct dlist *self)
     return self->pool_.next_;
 }
 
+static inline struct dlnode *dlist_rbegin(const struct dlist *self)
+{
+    return self->pool_.prev_;
+}
+
 static inline const struct dlnode *dlist_end(const struct dlist *self)
+{
+    return &self->pool_;
+}
+
+static inline const struct dlnode *dlist_rend(const struct dlist *self)
 {
     return &self->pool_;
 }
@@ -92,7 +102,7 @@ static inline void *dlist_front(const struct dlist *self)
 
 static inline void *dlist_back(const struct dlist *self)
 {
-    return dlist_empty(self) ? NULL : dlist_end(self)->prev_->entry_;
+    return dlist_empty(self) ? NULL : dlist_rbegin(self)->entry_;
 }
 
 static inline void dlist_push_front(struct dlist *self, struct dlnode *x,
@@ -104,7 +114,7 @@ static inline void dlist_push_front(struct dlist *self, struct dlnode *x,
 static inline void dlist_push_back(struct dlist *self, struct dlnode *x,
                                    void *e)
 {
-    dlist_insert_after(dlist_end(self)->prev_, x, e);
+    dlist_insert_after(dlist_rbegin(self), x, e);
 }
 
 static inline void *dlist_pop_front(struct dlist *self)
@@ -114,7 +124,7 @@ static inline void *dlist_pop_front(struct dlist *self)
 
 static inline void *dlist_pop_back(struct dlist *self)
 {
-    return dlist_erase(dlist_end(self)->prev_);
+    return dlist_erase(dlist_rbegin(self));
 }
 
 static inline void *dlist_at(const struct dlist *self, size_t n)
