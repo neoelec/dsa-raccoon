@@ -84,6 +84,8 @@ TEST_F(DLHashTest, Find)
     ASSERT_EQ(dlhash_find(table_, key), &data1->node_);
     key->value_ = 20;
     ASSERT_EQ(dlhash_find(table_, key), &data2->node_);
+
+    delete key;
 }
 
 TEST_F(DLHashTest, InsertAndAt)
@@ -133,6 +135,7 @@ TEST_F(DLHashTest, Remove)
 
     dlhash_remove(table_, key);
     ASSERT_EQ(dlhash_at(table_, key), nullptr);
+
     delete key;
 }
 
@@ -192,6 +195,8 @@ TEST_F(DLHashTest, Count)
     ASSERT_EQ(dlhash_count(table_, key), 1);
     key->value_ = 20;
     ASSERT_EQ(dlhash_count(table_, key), 1);
+
+    delete key;
 }
 
 TEST_F(DLHashTest, Swap)
