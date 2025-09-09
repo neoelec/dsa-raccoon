@@ -33,6 +33,7 @@ struct rbtree {
     struct rbnode *root_;
     int (*compar_)(const void *ke, const void *in_tree);
     struct rbnode NIL_;
+    size_t count_;
 };
 
 static inline const struct rbnode *rbtree_nil(const struct rbtree *_self)
@@ -47,6 +48,7 @@ static inline void rbtree_clear(struct rbtree *self)
     const struct rbnode *const NIL = rbtree_nil(self);
 
     self->root_ = (struct rbnode *)NIL;
+    self->count_ = 0;
 
     self->NIL_.color_ = RBCOLOR_BLACK;
     self->NIL_.left_ = (struct rbnode *)NIL;
@@ -165,14 +167,7 @@ static inline struct rbnode *rbtree_prev(const struct rbtree *self,
 
 static inline size_t rbtree_count(const struct rbtree *self)
 {
-    size_t i = 0;
-
-    for (const struct rbnode *x = rbtree_begin(self); x != rbtree_end(self);
-         x = rbtree_next(self, x)) {
-        i++;
-    }
-
-    return i;
+    return self->count_;
 }
 
 static inline void *rbtree_front(const struct rbtree *self)
@@ -310,6 +305,7 @@ static inline void rbtree_insert(struct rbtree *self, struct rbnode *z, void *e)
         y->right_ = z;
     }
 
+    self->count_++;
     __rbtree_insert_fixup(self, z);
 }
 
@@ -460,6 +456,8 @@ static inline void *rbtree_erase(struct rbtree *self, struct rbnode *z)
     if (y_original_color == RBCOLOR_BLACK) {
         __rbtree_delete_fixup(self, x);
     }
+
+    self->count_--;
 
     return e;
 }
