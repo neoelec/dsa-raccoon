@@ -285,7 +285,7 @@ static inline void *spltree_erase(struct spltree *self, struct splnode *z)
     struct splnode *x = spltree_find(self, z->entry_);
     void *e;
 
-    if (x == NULL || x != z) {
+    if ((x == NULL) || (x != z)) {
         return NULL;
     }
 
@@ -366,6 +366,46 @@ static inline void *spltree_at(struct spltree *self, size_t n)
     __spltree_splay(self, x);
 
     return x->entry_;
+}
+
+static inline struct splnode *spltree_lower_bound(const struct spltree *self,
+                                                  const void *ke)
+{
+    struct splnode *x = self->root_;
+    struct splnode *result = NULL;
+
+    while (x != NULL) {
+        int diff = self->compar_(ke, x->entry_);
+
+        if (diff <= 0) {
+            result = x;
+            x = x->left_;
+        } else {
+            x = x->right_;
+        }
+    }
+
+    return result;
+}
+
+static inline struct splnode *spltree_upper_bound(const struct spltree *self,
+                                                  const void *ke)
+{
+    struct splnode *x = self->root_;
+    struct splnode *result = NULL;
+
+    while (x != NULL) {
+        int diff = self->compar_(ke, x->entry_);
+
+        if (diff < 0) {
+            result = x;
+            x = x->left_;
+        } else {
+            x = x->right_;
+        }
+    }
+
+    return result;
 }
 
 #ifdef __cplusplus

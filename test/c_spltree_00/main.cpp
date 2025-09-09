@@ -229,6 +229,68 @@ TEST_F(SplayTreeTest, At)
     ASSERT_EQ(found, nullptr);
 }
 
+TEST_F(SplayTreeTest, LowerBound)
+{
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+    auto data4 = new TestData(75);
+    auto data5 = new TestData(125);
+
+    spltree_insert(tree_, &data1->node_, data1);
+    spltree_insert(tree_, &data2->node_, data2);
+    spltree_insert(tree_, &data3->node_, data3);
+    spltree_insert(tree_, &data4->node_, data4);
+    spltree_insert(tree_, &data5->node_, data5);
+
+    auto key = new TestData(70);
+    auto lb = spltree_lower_bound(tree_, key);
+    ASSERT_NE(lb, nullptr);
+    ASSERT_EQ(((TestData *)lb->entry_)->value_, 75);
+
+    key->value_ = 100;
+    lb = spltree_lower_bound(tree_, key);
+    ASSERT_NE(lb, nullptr);
+    ASSERT_EQ(((TestData *)lb->entry_)->value_, 100);
+
+    key->value_ = 200;
+    lb = spltree_lower_bound(tree_, key);
+    ASSERT_EQ(lb, nullptr);
+
+    delete key;
+}
+
+TEST_F(SplayTreeTest, UpperBound)
+{
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+    auto data4 = new TestData(75);
+    auto data5 = new TestData(125);
+
+    spltree_insert(tree_, &data1->node_, data1);
+    spltree_insert(tree_, &data2->node_, data2);
+    spltree_insert(tree_, &data3->node_, data3);
+    spltree_insert(tree_, &data4->node_, data4);
+    spltree_insert(tree_, &data5->node_, data5);
+
+    auto key = new TestData(70);
+    auto ub = spltree_upper_bound(tree_, key);
+    ASSERT_NE(ub, nullptr);
+    ASSERT_EQ(((TestData *)ub->entry_)->value_, 75);
+
+    key->value_ = 100;
+    ub = spltree_upper_bound(tree_, key);
+    ASSERT_NE(ub, nullptr);
+    ASSERT_EQ(((TestData *)ub->entry_)->value_, 125);
+
+    key->value_ = 200;
+    ub = spltree_upper_bound(tree_, key);
+    ASSERT_EQ(ub, nullptr);
+
+    delete key;
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
