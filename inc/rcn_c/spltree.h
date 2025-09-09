@@ -258,8 +258,8 @@ static inline void spltree_insert(struct spltree *self, struct splnode *z,
     __spltree_splay(self, z);
 }
 
-static inline struct splnode *spltree_find(const struct spltree *self,
-                                           const void *ke)
+static inline const struct splnode *
+spltree_find_const(const struct spltree *self, const void *ke)
 {
     const struct splnode *x = self->root_;
 
@@ -267,7 +267,6 @@ static inline struct splnode *spltree_find(const struct spltree *self,
         int diff = self->compar_(ke, x->entry_);
 
         if (diff == 0) {
-            __spltree_splay((struct spltree *)self, (struct splnode *)x);
             return (struct splnode *)x;
         } else if (diff < 0) {
             x = x->left_;
@@ -277,6 +276,16 @@ static inline struct splnode *spltree_find(const struct spltree *self,
     }
 
     return NULL;
+}
+
+static inline struct splnode *spltree_find(struct spltree *self, const void *ke)
+{
+    struct splnode *x = (struct splnode *)spltree_find_const(self, ke);
+
+    if (x != NULL)
+        __spltree_splay(self, x);
+
+    return x;
 }
 
 static inline void *spltree_erase(struct spltree *self, struct splnode *z)
