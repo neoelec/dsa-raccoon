@@ -282,8 +282,9 @@ static inline struct splnode *spltree_find(struct spltree *self, const void *ke)
 {
     struct splnode *x = (struct splnode *)spltree_find_const(self, ke);
 
-    if (x != NULL)
+    if (x != NULL) {
         __spltree_splay(self, x);
+    }
 
     return x;
 }
