@@ -8,7 +8,9 @@ EXTRAINCDIRS		+= $(PRJ_NATIVE_MK_DIR)/inc
 VPATH			+= $(PRJ_NATIVE_MK_DIR)/src_c
 VPATH			+= $(PRJ_NATIVE_MK_DIR)/src_cpp
 
-CFLAGS			+= -Wall -Werror -Wextra -Wno-unused-parameter
+CFLAGS			+= -flto
+CFLAGS			+= -Werror
+CFLAGS			+= -Wextra -Wno-unused-parameter
 
 OPT			:= g
 
