@@ -259,18 +259,18 @@ TEST_F(RedBlackTreeTest, UpperBound)
     rbtree_insert(tree_, &data5->node_, data5);
 
     auto key = new TestData(70);
-    auto lb = rbtree_upper_bound(tree_, key);
-    ASSERT_NE(lb, rbtree_nil(tree_));
-    ASSERT_EQ(((TestData *)lb->entry_)->value_, 75);
+    auto ub = rbtree_upper_bound(tree_, key);
+    ASSERT_NE(ub, rbtree_nil(tree_));
+    ASSERT_EQ(((TestData *)ub->entry_)->value_, 75);
 
     key->value_ = 100;
-    lb = rbtree_upper_bound(tree_, key);
-    ASSERT_NE(lb, rbtree_nil(tree_));
-    ASSERT_EQ(((TestData *)lb->entry_)->value_, 125);
+    ub = rbtree_upper_bound(tree_, key);
+    ASSERT_NE(ub, rbtree_nil(tree_));
+    ASSERT_EQ(((TestData *)ub->entry_)->value_, 125);
 
     key->value_ = 200;
-    lb = rbtree_upper_bound(tree_, key);
-    ASSERT_EQ(lb, rbtree_nil(tree_));
+    ub = rbtree_upper_bound(tree_, key);
+    ASSERT_EQ(ub, rbtree_nil(tree_));
 
     delete key;
 }
