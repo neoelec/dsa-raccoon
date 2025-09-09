@@ -36,10 +36,8 @@ struct rbtree {
     size_t count_;
 };
 
-static inline const struct rbnode *rbtree_nil(const struct rbtree *_self)
+static inline const struct rbnode *rbtree_nil(const struct rbtree *self)
 {
-    struct rbtree *self = (struct rbtree *)_self;
-
     return &self->NIL_;
 }
 
