@@ -294,6 +294,7 @@ static inline void rbtree_insert(struct rbtree *self, struct rbnode *z, void *e)
     z->entry_ = e;
     z->parent_ = y;
     z->left_ = z->right_ = (struct rbnode *)NIL;
+    z->color_ = RBCOLOR_RED;
 
     if (y == NIL) {
         self->root_ = z;
