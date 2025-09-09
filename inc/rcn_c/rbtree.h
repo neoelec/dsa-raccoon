@@ -420,7 +420,7 @@ static inline void *rbtree_erase(struct rbtree *self, struct rbnode *z)
     enum rbcolor y_original_color;
     void *e;
 
-    if (x == NIL) {
+    if ((x == NIL) || (x != z)) {
         return NULL;
     }
 
