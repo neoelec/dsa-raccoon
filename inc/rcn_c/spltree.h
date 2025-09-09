@@ -285,7 +285,7 @@ static inline void *spltree_erase(struct spltree *self, struct splnode *z)
     struct splnode *x = spltree_find(self, z->entry_);
     void *e;
 
-    if (x == NULL) {
+    if (x == NULL || x != z) {
         return NULL;
     }
 
