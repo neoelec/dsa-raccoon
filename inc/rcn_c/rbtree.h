@@ -435,15 +435,21 @@ static inline void *rbtree_erase(struct rbtree *self, struct rbnode *z)
         x = z->left_;
         __rbtree_transplant(self, z, z->left_);
     } else {
+        y = z->right_;
+
+        while (y->left_ != NIL) {
+            y = y->left_;
+        }
+
         y_original_color = y->color_;
         x = y->right_;
 
-        if (y != z->right_) {
+        if (y->parent_ == z) {
+            x->parent_ = y;
+        } else {
             __rbtree_transplant(self, y, y->right_);
             y->right_ = z->right_;
             y->right_->parent_ = y;
-        } else {
-            x->parent_ = y;
         }
 
         __rbtree_transplant(self, z, y);
