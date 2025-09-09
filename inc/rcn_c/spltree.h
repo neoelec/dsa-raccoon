@@ -267,7 +267,7 @@ spltree_find_const(const struct spltree *self, const void *ke)
         int diff = self->compar_(ke, x->entry_);
 
         if (diff == 0) {
-            return (struct splnode *)x;
+            return x;
         } else if (diff < 0) {
             x = x->left_;
         } else {
