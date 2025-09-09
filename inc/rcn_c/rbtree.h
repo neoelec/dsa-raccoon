@@ -519,6 +519,61 @@ static inline struct rbnode *rbtree_upper_bound(const struct rbtree *self,
     return result;
 }
 
+static inline bool __rbtree_validate_node(const struct rbtree *self,
+                                          const struct rbnode *x,
+                                          size_t nr_black_expected,
+                                          size_t nr_black_counted)
+{
+    const struct rbnode *NIL = rbtree_nil(self);
+
+    if (x == NIL) {
+        return nr_black_expected == nr_black_counted;
+    }
+
+    const struct rbnode *left = x->left_;
+    const struct rbnode *right = x->right_;
+
+    if (x->color_ == RBCOLOR_RED) {
+        if (((left != NIL) && (left->color_ == RBCOLOR_RED)) ||
+            ((right != NIL) && (right->color_ == RBCOLOR_RED))) {
+            return false;
+        }
+    } else {
+        nr_black_counted++;
+    }
+
+    return __rbtree_validate_node(self, left, nr_black_expected,
+                                  nr_black_counted) &&
+           __rbtree_validate_node(self, right, nr_black_expected,
+                                  nr_black_counted);
+}
+
+static inline bool rbtree_validate(const struct rbtree *self)
+{
+    const struct rbnode *NIL = rbtree_nil(self);
+
+    if (self->root_ == NIL) {
+        return true;
+    }
+
+    if (self->root_->color_ != RBCOLOR_BLACK) {
+        return false;
+    }
+
+    const struct rbnode *x = self->root_;
+    size_t nr_black_expected = 0;
+
+    while (x != NIL) {
+        if (x->color_ == RBCOLOR_BLACK) {
+            nr_black_expected++;
+        }
+
+        x = x->left_;
+    }
+
+    return __rbtree_validate_node(self, self->root_, nr_black_expected, 0);
+}
+
 #ifdef __cplusplus
 }
 #endif /* namespace rcn_c */
