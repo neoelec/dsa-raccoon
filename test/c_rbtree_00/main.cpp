@@ -213,6 +213,68 @@ TEST_F(RedBlackTreeTest, PopFrontAndPopBack)
     ASSERT_TRUE(rbtree_empty(tree_));
 }
 
+TEST_F(RedBlackTreeTest, LowerBound)
+{
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+    auto data4 = new TestData(75);
+    auto data5 = new TestData(125);
+
+    rbtree_insert(tree_, &data1->node_, data1);
+    rbtree_insert(tree_, &data2->node_, data2);
+    rbtree_insert(tree_, &data3->node_, data3);
+    rbtree_insert(tree_, &data4->node_, data4);
+    rbtree_insert(tree_, &data5->node_, data5);
+
+    auto key = new TestData(70);
+    auto lb = rbtree_lower_bound(tree_, key);
+    ASSERT_NE(lb, rbtree_nil(tree_));
+    ASSERT_EQ(((TestData *)lb->entry_)->value_, 75);
+
+    key->value_ = 100;
+    lb = rbtree_lower_bound(tree_, key);
+    ASSERT_NE(lb, rbtree_nil(tree_));
+    ASSERT_EQ(((TestData *)lb->entry_)->value_, 100);
+
+    key->value_ = 200;
+    lb = rbtree_lower_bound(tree_, key);
+    ASSERT_EQ(lb, rbtree_nil(tree_));
+
+    delete key;
+}
+
+TEST_F(RedBlackTreeTest, UpperBound)
+{
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+    auto data4 = new TestData(75);
+    auto data5 = new TestData(125);
+
+    rbtree_insert(tree_, &data1->node_, data1);
+    rbtree_insert(tree_, &data2->node_, data2);
+    rbtree_insert(tree_, &data3->node_, data3);
+    rbtree_insert(tree_, &data4->node_, data4);
+    rbtree_insert(tree_, &data5->node_, data5);
+
+    auto key = new TestData(70);
+    auto lb = rbtree_upper_bound(tree_, key);
+    ASSERT_NE(lb, rbtree_nil(tree_));
+    ASSERT_EQ(((TestData *)lb->entry_)->value_, 75);
+
+    key->value_ = 100;
+    lb = rbtree_upper_bound(tree_, key);
+    ASSERT_NE(lb, rbtree_nil(tree_));
+    ASSERT_EQ(((TestData *)lb->entry_)->value_, 125);
+
+    key->value_ = 200;
+    lb = rbtree_upper_bound(tree_, key);
+    ASSERT_EQ(lb, rbtree_nil(tree_));
+
+    delete key;
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

@@ -477,6 +477,48 @@ static inline void *rbtree_pop_back(struct rbtree *self)
     return rbtree_erase(self, rbtree_rbegin(self));
 }
 
+static inline struct rbnode *rbtree_lower_bound(const struct rbtree *self,
+                                                const void *ke)
+{
+    const struct rbnode *const NIL = rbtree_nil(self);
+    struct rbnode *x = self->root_;
+    struct rbnode *result = (struct rbnode *)NIL;
+
+    while (x != NIL) {
+        int diff = self->compar_(ke, x->entry_);
+
+        if (diff <= 0) {
+            result = x;
+            x = x->left_;
+        } else {
+            x = x->right_;
+        }
+    }
+
+    return result;
+}
+
+static inline struct rbnode *rbtree_upper_bound(const struct rbtree *self,
+                                                const void *ke)
+{
+    const struct rbnode *const NIL = rbtree_nil(self);
+    struct rbnode *x = self->root_;
+    struct rbnode *result = (struct rbnode *)NIL;
+
+    while (x != NIL) {
+        int diff = self->compar_(ke, x->entry_);
+
+        if (diff < 0) {
+            result = x;
+            x = x->left_;
+        } else {
+            x = x->right_;
+        }
+    }
+
+    return result;
+}
+
 #ifdef __cplusplus
 }
 #endif /* namespace rcn_c */
