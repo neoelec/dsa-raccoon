@@ -69,14 +69,15 @@ public:
 
         ssize_t pos, parent;
         pos = size_++;
-        entry_[pos] = e;
         parent = __parent(pos);
 
-        while (pos > 0 && __compar(pos, parent) < 0) {
-            __swap(pos, parent);
+        while (pos > 0 && compar_(e, entry_[parent]) < 0) {
+            entry_[pos] = entry_[parent];
             pos = parent;
             parent = __parent(pos);
         }
+
+        entry_[pos] = e;
     }
 
     T *pop()
