@@ -99,14 +99,15 @@ static inline void heap_push(struct heap *self, void *e)
 
     ssize_t pos, parent;
     pos = self->size_++;
-    self->entry_[pos] = e;
     parent = __heap_parent(pos);
 
-    while (pos > 0 && __heap_compar(self, pos, parent) < 0) {
-        __heap_swap(self, pos, parent);
+    while (pos > 0 && self->compar_(e, self->entry_[parent]) < 0) {
+        self->entry_[pos] = self->entry_[parent];
         pos = parent;
         parent = __heap_parent(pos);
     }
+
+    self->entry_[pos] = e;
 }
 
 static inline void *heap_pop(struct heap *self)
