@@ -141,7 +141,7 @@ static inline struct splnode *spltree_prev(const struct spltree *self,
     return parent;
 }
 
-static inline size_t spltree_count(const struct spltree *self)
+static inline size_t spltree_size(const struct spltree *self)
 {
     return spltree_empty(self) ? 0 : self->root_->count_;
 }
@@ -350,7 +350,7 @@ static inline void *spltree_pop_back(struct spltree *self)
 
 static inline void *spltree_at(struct spltree *self, size_t n)
 {
-    if (spltree_empty(self) || (n >= spltree_count(self))) {
+    if (spltree_empty(self) || (n >= spltree_size(self))) {
         return NULL;
     }
 

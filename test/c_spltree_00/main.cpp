@@ -151,18 +151,18 @@ TEST_F(SplayTreeTest, Erase)
 
 TEST_F(SplayTreeTest, Count)
 {
-    ASSERT_EQ(spltree_count(tree_), 0);
+    ASSERT_EQ(spltree_size(tree_), 0);
 
     auto data1 = new TestData(100);
     auto data2 = new TestData(50);
     auto data3 = new TestData(150);
 
     spltree_insert(tree_, &data1->node_, data1);
-    ASSERT_EQ(spltree_count(tree_), 1);
+    ASSERT_EQ(spltree_size(tree_), 1);
     spltree_insert(tree_, &data2->node_, data2);
-    ASSERT_EQ(spltree_count(tree_), 2);
+    ASSERT_EQ(spltree_size(tree_), 2);
     spltree_insert(tree_, &data3->node_, data3);
-    ASSERT_EQ(spltree_count(tree_), 3);
+    ASSERT_EQ(spltree_size(tree_), 3);
 }
 
 TEST_F(SplayTreeTest, FrontAndBack)
@@ -194,15 +194,15 @@ TEST_F(SplayTreeTest, PopFrontAndPopBack)
 
     auto front = (TestData *)spltree_pop_front(tree_);
     ASSERT_EQ(front->value_, 50);
-    ASSERT_EQ(spltree_count(tree_), 2);
+    ASSERT_EQ(spltree_size(tree_), 2);
 
     auto back = (TestData *)spltree_pop_back(tree_);
     ASSERT_EQ(back->value_, 150);
-    ASSERT_EQ(spltree_count(tree_), 1);
+    ASSERT_EQ(spltree_size(tree_), 1);
 
     auto remaining = (TestData *)spltree_pop_front(tree_);
     ASSERT_EQ(remaining->value_, 100);
-    ASSERT_EQ(spltree_count(tree_), 0);
+    ASSERT_EQ(spltree_size(tree_), 0);
     ASSERT_TRUE(spltree_empty(tree_));
 }
 

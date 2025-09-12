@@ -137,7 +137,7 @@ static inline struct dlnode *dlhash_remove(struct dlhash *self, const void *ke)
     return x;
 }
 
-static inline size_t dlhash_count(const struct dlhash *self, const void *ke)
+static inline size_t dlhash_size(const struct dlhash *self, const void *ke)
 {
     size_t n = __dlhash_index(self, ke);
 

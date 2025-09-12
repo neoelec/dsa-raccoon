@@ -158,18 +158,18 @@ TEST_F(RedBlackTreeTest, Erase)
 
 TEST_F(RedBlackTreeTest, Count)
 {
-    ASSERT_EQ(rbtree_count(tree_), 0);
+    ASSERT_EQ(rbtree_size(tree_), 0);
 
     auto data1 = new TestData(100);
     auto data2 = new TestData(50);
     auto data3 = new TestData(150);
 
     rbtree_insert(tree_, &data1->node_, data1);
-    ASSERT_EQ(rbtree_count(tree_), 1);
+    ASSERT_EQ(rbtree_size(tree_), 1);
     rbtree_insert(tree_, &data2->node_, data2);
-    ASSERT_EQ(rbtree_count(tree_), 2);
+    ASSERT_EQ(rbtree_size(tree_), 2);
     rbtree_insert(tree_, &data3->node_, data3);
-    ASSERT_EQ(rbtree_count(tree_), 3);
+    ASSERT_EQ(rbtree_size(tree_), 3);
 }
 
 TEST_F(RedBlackTreeTest, FrontAndBack)
@@ -201,15 +201,15 @@ TEST_F(RedBlackTreeTest, PopFrontAndPopBack)
 
     auto front = (TestData *)rbtree_pop_front(tree_);
     ASSERT_EQ(front->value_, 50);
-    ASSERT_EQ(rbtree_count(tree_), 2);
+    ASSERT_EQ(rbtree_size(tree_), 2);
 
     auto back = (TestData *)rbtree_pop_back(tree_);
     ASSERT_EQ(back->value_, 150);
-    ASSERT_EQ(rbtree_count(tree_), 1);
+    ASSERT_EQ(rbtree_size(tree_), 1);
 
     auto remaining = (TestData *)rbtree_pop_front(tree_);
     ASSERT_EQ(remaining->value_, 100);
-    ASSERT_EQ(rbtree_count(tree_), 0);
+    ASSERT_EQ(rbtree_size(tree_), 0);
     ASSERT_TRUE(rbtree_empty(tree_));
 }
 

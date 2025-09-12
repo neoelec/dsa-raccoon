@@ -192,9 +192,9 @@ TEST_F(DLHashTest, Count)
     dlhash_insert(table_, &data2->node_, data2);
 
     auto key = new TestData(10);
-    ASSERT_EQ(dlhash_count(table_, key), 1);
+    ASSERT_EQ(dlhash_size(table_, key), 1);
     key->value_ = 20;
-    ASSERT_EQ(dlhash_count(table_, key), 1);
+    ASSERT_EQ(dlhash_size(table_, key), 1);
 
     delete key;
 }

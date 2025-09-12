@@ -120,7 +120,7 @@ static inline void *slhash_at(const struct slhash *self, const void *ke)
     return x == NULL ? NULL : x->entry_;
 }
 
-static inline size_t slhash_count(const struct slhash *self, const void *ke)
+static inline size_t slhash_size(const struct slhash *self, const void *ke)
 {
     size_t n = __slhash_index(self, ke);
 
