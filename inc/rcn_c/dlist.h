@@ -119,12 +119,12 @@ static inline void dlist_push_back(struct dlist *self, struct dlnode *x,
 
 static inline void *dlist_pop_front(struct dlist *self)
 {
-    return dlist_erase(dlist_begin(self));
+    return dlist_empty(self) ? NULL : dlist_erase(dlist_begin(self));
 }
 
 static inline void *dlist_pop_back(struct dlist *self)
 {
-    return dlist_erase(dlist_rbegin(self));
+    return dlist_empty(self) ? NULL : dlist_erase(dlist_rbegin(self));
 }
 
 static inline void *dlist_at(const struct dlist *self, size_t n)
