@@ -18,21 +18,22 @@ namespace rcn_c
 {
 #endif
 
-static ssize_t __partition(void *base, ssize_t left, ssize_t right, size_t size,
-                           int (*compar)(const void *a, const void *b))
+static inline ssize_t __partition(void *base, ssize_t left, ssize_t right,
+                                  size_t size,
+                                  int (*compar)(const void *a, const void *b))
 {
 #define __base(n) (&((char *)base)[(n) * size])
 
-    ssize_t pivot = left;
+    void *pivot = __base(left);
     ssize_t i = left;
     ssize_t j = right;
 
     while (i < j) {
-        while (compar(__base(i), __base(pivot)) <= 0 && i < right) {
+        while (i < right && compar(__base(i), pivot) <= 0) {
             i++;
         }
 
-        while (compar(__base(j), __base(pivot)) > 0) {
+        while (compar(__base(j), pivot) > 0) {
             j--;
         }
 
@@ -41,7 +42,7 @@ static ssize_t __partition(void *base, ssize_t left, ssize_t right, size_t size,
         }
     }
 
-    swap(__base(j), __base(pivot), size);
+    swap(__base(j), pivot, size);
 
 #undef __base
 
