@@ -84,7 +84,7 @@ static inline bool smmh_full(const struct smmh *self)
     return smmh_size(self) == smmh_max_size(self);
 }
 
-static inline void *smmh_front(struct smmh *self)
+static inline void *smmh_front(const struct smmh *self)
 {
     if (smmh_empty(self)) {
         return NULL;
@@ -93,7 +93,7 @@ static inline void *smmh_front(struct smmh *self)
     }
 }
 
-static inline void *smmh_back(struct smmh *self)
+static inline void *smmh_back(const struct smmh *self)
 {
     if (smmh_empty(self)) {
         return NULL;
