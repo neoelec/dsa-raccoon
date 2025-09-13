@@ -135,6 +135,23 @@ TEST_F(HeapTest, Swap)
     __heap_free_entry(&other_heap);
 }
 
+TEST_F(HeapTest, HeapValidateion)
+{
+    int v[nr_entries_];
+
+    for (size_t i = 0; i < nr_entries_; ++i) {
+        v[i] = (int)(i + 1);
+        heap_push(heap_, &v[i]);
+        heap_validate(heap_);
+    }
+
+    ASSERT_TRUE(heap_full(heap_));
+    heap_validate(heap_);
+    heap_pop(heap_);
+    ASSERT_FALSE(heap_full(heap_));
+    heap_validate(heap_);
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

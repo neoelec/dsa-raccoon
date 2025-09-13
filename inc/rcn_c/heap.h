@@ -163,6 +163,23 @@ static inline void __heap_free_entry(struct heap *self)
     free(self->entry_);
 }
 
+static inline bool heap_validate(const struct heap *self)
+{
+    for (size_t i = 2; i < self->size_; i++) {
+        size_t left = __heap_left(i);
+        size_t right = left + 1;
+
+        if ((left < self->size_) && (__heap_compar(self, i, left) < 0)) {
+            return false;
+        } else if ((right < self->size_) &&
+                   (__heap_compar(self, i, right) > 0)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 #ifdef __cplusplus
 }
 #endif /* namespace rcn_c */
