@@ -26,7 +26,7 @@ struct smmh {
     size_t nr_entries_;
     int (*compar_)(const void *ke, const void *in_heap);
     void **entry_;
-    size_t idx_;
+    volatile size_t idx_;
 };
 
 static inline size_t __smmh_grandpa(size_t pos)
