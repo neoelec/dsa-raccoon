@@ -302,34 +302,30 @@ static inline void *spltree_erase(struct spltree *self, struct splnode *z)
     e = x->entry_;
     p = self->root_;
 
-    if (p->left_ != NULL) {
-        if (p->right_ != NULL) {
-            self->root_ = p->left_;
-            self->root_->parent_ = NULL;
-            x = self->root_;
-
-            while (x->right_ != NULL) {
-                x = x->right_;
-            }
-
-            x->right_ = p->right_;
-            p->right_->parent_ = x;
-            __spltree_splay(self, x);
-            return e;
-        }
-
+    if ((p->left_ != NULL) && (p->right_ != NULL)) {
         self->root_ = p->left_;
         self->root_->parent_ = NULL;
-        return e;
-    }
+        x = self->root_;
 
-    if (p->right_ != NULL) {
+        while (x->right_ != NULL) {
+            x = x->right_;
+        }
+
+        x->right_ = p->right_;
+        p->right_->parent_ = x;
+        __spltree_splay(self, x);
+    } else if (p->left_ != NULL) {
+        self->root_ = p->left_;
+        self->root_->parent_ = NULL;
+    } else if (p->right_ != NULL) {
         self->root_ = p->right_;
         self->root_->parent_ = NULL;
+    } else {
+        self->root_ = NULL;
         return e;
     }
 
-    self->root_ = NULL;
+    __splnode_update(self->root_);
 
     return e;
 }
