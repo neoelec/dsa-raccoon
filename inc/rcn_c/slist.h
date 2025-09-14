@@ -36,11 +36,8 @@ static inline void slist_insert_after(struct slnode *pos, struct slnode *x,
 
 static inline void *slist_erase_after(struct slnode *pos)
 {
-    if (pos->next_ == NULL) {
-        return NULL;
-    }
-
     struct slnode *x = pos->next_;
+
     pos->next_ = x->next_;
     return x->entry_;
 }
@@ -51,7 +48,7 @@ struct slist {
 
 static inline void slist_clear(struct slist *self)
 {
-    self->pool_.next_ = NULL;
+    self->pool_.next_ = &self->pool_;
 }
 
 static inline void slist_init(struct slist *self)
@@ -64,14 +61,14 @@ static inline struct slnode *slist_begin(const struct slist *self)
     return self->pool_.next_;
 }
 
-static inline struct slnode *slist_end(const struct slist *self)
+static inline const struct slnode *slist_end(const struct slist *self)
 {
-    return NULL;
+    return &self->pool_;
 }
 
 static inline bool slist_empty(const struct slist *self)
 {
-    return slist_begin(self) == NULL;
+    return slist_begin(self) == &self->pool_;
 }
 
 static inline size_t slist_size(const struct slist *self)
@@ -99,7 +96,7 @@ static inline void slist_push_front(struct slist *self, struct slnode *x,
 
 static inline void *slist_pop_front(struct slist *self)
 {
-    return slist_erase_after(&self->pool_);
+    return slist_empty(self) ? NULL : slist_erase_after(&self->pool_);
 }
 
 static inline void *slist_at(const struct slist *self, size_t n)
@@ -115,11 +112,27 @@ static inline void *slist_at(const struct slist *self, size_t n)
 
 static inline void slist_swap(struct slist *self, struct slist *other)
 {
-    struct slnode tmp;
+    struct slnode *x;
 
-    tmp.next_ = slist_begin(self);
+    x = slist_begin(self);
+
+    while (x->next_ != slist_end(self)) {
+        x = x->next_;
+    }
+
+    x->next_ = &other->pool_;
+
+    x = slist_begin(other);
+
+    while (x->next_ != slist_end(other)) {
+        x = x->next_;
+    }
+
+    x->next_ = &self->pool_;
+
+    x = slist_begin(self);
     self->pool_.next_ = slist_begin(other);
-    other->pool_.next_ = tmp.next_;
+    other->pool_.next_ = x;
 }
 
 static inline struct slnode *slist_remove_if(struct slist *self, const void *ke,
@@ -142,15 +155,15 @@ static inline struct slnode *slist_remove_if(struct slist *self, const void *ke,
 
 static inline void slist_reverse(struct slist *self)
 {
-    struct slnode head = { .next_ = NULL, .entry_ = NULL };
+    struct slnode _y = { .next_ = &self->pool_, .entry_ = NULL }, *y = &_y;
 
     while (!slist_empty(self)) {
         struct slnode *x = slist_begin(self);
         slist_pop_front(self);
-        __slist_insert_after(&head, x);
+        __slist_insert_after(y, x);
     }
 
-    self->pool_.next_ = head.next_;
+    self->pool_.next_ = y->next_;
 }
 
 #ifdef __cplusplus
