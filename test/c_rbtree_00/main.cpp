@@ -213,6 +213,32 @@ TEST_F(RedBlackTreeTest, PopFrontAndPopBack)
     ASSERT_TRUE(rbtree_empty(tree_));
 }
 
+TEST_F(RedBlackTreeTest, At)
+{
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+
+    rbtree_insert(tree_, &data1->node_, data1);
+    rbtree_insert(tree_, &data2->node_, data2);
+    rbtree_insert(tree_, &data3->node_, data3);
+
+    auto found = (TestData *)rbtree_at(tree_, 0);
+    ASSERT_NE(found, nullptr);
+    ASSERT_EQ(found->value_, 50);
+
+    found = (TestData *)rbtree_at(tree_, 1);
+    ASSERT_NE(found, nullptr);
+    ASSERT_EQ(found->value_, 100);
+
+    found = (TestData *)rbtree_at(tree_, 2);
+    ASSERT_NE(found, nullptr);
+    ASSERT_EQ(found->value_, 150);
+
+    found = (TestData *)rbtree_at(tree_, 3);
+    ASSERT_EQ(found, nullptr);
+}
+
 TEST_F(RedBlackTreeTest, LowerBound)
 {
     auto data1 = new TestData(100);

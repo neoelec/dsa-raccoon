@@ -477,6 +477,17 @@ static inline void *rbtree_pop_back(struct rbtree *self)
     return rbtree_erase(self, rbtree_rbegin(self));
 }
 
+static inline void *rbtree_at(struct rbtree *self, size_t n)
+{
+    struct rbnode *x;
+
+    for (x = rbtree_begin(self); n != 0 && x != rbtree_end(self); --n) {
+        x = rbtree_next(self, x);
+    }
+
+    return x == rbtree_end(self) ? NULL : x->entry_;
+}
+
 static inline struct rbnode *rbtree_lower_bound(const struct rbtree *self,
                                                 const void *ke)
 {
