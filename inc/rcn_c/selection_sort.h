@@ -34,8 +34,10 @@ static inline void __selection_sort(void *base, void *item, size_t nmemb,
             }
         }
 
-        memcpy(__base(min_index), __base(i), size);
-        memcpy(__base(i), item, size);
+        if (min_index != i) {
+            memcpy(__base(min_index), __base(i), size);
+            memcpy(__base(i), item, size);
+        }
     }
 
 #undef __base
