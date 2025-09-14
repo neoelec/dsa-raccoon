@@ -352,9 +352,7 @@ static inline struct avlnode *avltree_find(const struct avltree *self,
     struct avlnode *x = self->root_;
 
     while (x != NULL) {
-        int diff;
-
-        diff = self->compar_(ke, x->entry_);
+        int diff = self->compar_(ke, x->entry_);
 
         if (diff == 0) {
             return x;

@@ -396,9 +396,7 @@ static inline struct rbnode *rbtree_find(const struct rbtree *self,
     struct rbnode *x = self->root_;
 
     while (x != NIL) {
-        int diff;
-
-        diff = self->compar_(ke, x->entry_);
+        int diff = self->compar_(ke, x->entry_);
 
         if (diff == 0) {
             return x;
