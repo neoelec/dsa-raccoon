@@ -218,12 +218,15 @@ TEST_F(SplayTreeTest, At)
 
     auto found = (TestData *)spltree_at(tree_, 0);
     ASSERT_NE(found, nullptr);
+    ASSERT_EQ(found->value_, 50);
 
     found = (TestData *)spltree_at(tree_, 1);
     ASSERT_NE(found, nullptr);
+    ASSERT_EQ(found->value_, 100);
 
     found = (TestData *)spltree_at(tree_, 2);
     ASSERT_NE(found, nullptr);
+    ASSERT_EQ(found->value_, 150);
 
     found = (TestData *)spltree_at(tree_, 3);
     ASSERT_EQ(found, nullptr);
