@@ -582,7 +582,18 @@ static inline bool rbtree_validate(const struct rbtree *self)
         x = x->left_;
     }
 
-    return __rbtree_validate_node(self, self->root_, nr_black_expected, 0);
+    if (!__rbtree_validate_node(self, self->root_, nr_black_expected, 0)) {
+        return false;
+    }
+
+    size_t size = 0;
+
+    for (struct rbnode *x = rbtree_begin(self); x != rbtree_end(self);
+         x = rbtree_next(self, x)) {
+        size++;
+    }
+
+    return rbtree_size(self) == size;
 }
 
 #ifdef __cplusplus
