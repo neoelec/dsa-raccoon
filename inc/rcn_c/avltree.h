@@ -316,32 +316,30 @@ static struct avlnode *__avltree_erase(struct avltree *self, struct avlnode *x,
         x->right_ = __avltree_erase(self, x->right_, z);
         x = __avltree_rebalance(x);
     } else {
-        if ((x->left_ == NULL) && (x->right_ == NULL)) {
-            x = NULL;
-        } else if ((x->left_ != NULL) && (x->right_ == NULL)) {
-            x->left_->parent_ = x->parent_;
-            x = x->left_;
-        } else if ((x->left_ == NULL) && (x->right_ != NULL)) {
-            x->right_->parent_ = x->parent_;
-            x = x->right_;
-        } else {
+        if ((x->left_ != NULL) && (x->right_ != NULL)) {
             struct avlnode *y = __avlnode_successor(x->right_, x);
 
             y->parent_ = x->parent_;
-
             y->left_ = x->left_;
+            y->right_ = x->right_;
 
             if (x->left_ != NULL) {
                 x->left_->parent_ = y;
             }
-
-            y->right_ = x->right_;
 
             if (x->right_ != NULL) {
                 x->right_->parent_ = y;
             }
 
             x = y;
+        } else if (x->left_ != NULL) {
+            x->left_->parent_ = x->parent_;
+            x = x->left_;
+        } else if (x->right_ != NULL) {
+            x->right_->parent_ = x->parent_;
+            x = x->right_;
+        } else {
+            x = NULL;
         }
     }
 
