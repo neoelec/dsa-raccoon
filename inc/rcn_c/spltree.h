@@ -418,6 +418,18 @@ static inline struct splnode *spltree_upper_bound(const struct spltree *self,
     return result;
 }
 
+static inline bool spltree_validate(const struct spltree *self)
+{
+    size_t size = 0;
+
+    for (struct splnode *x = spltree_begin(self); x != spltree_end(self);
+         x = spltree_next(self, x)) {
+        size++;
+    }
+
+    return spltree_size(self) == size;
+}
+
 #ifdef __cplusplus
 }
 #endif /* namespace rcn_c */

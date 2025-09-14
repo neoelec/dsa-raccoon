@@ -294,6 +294,40 @@ TEST_F(SplayTreeTest, UpperBound)
     delete key;
 }
 
+TEST_F(SplayTreeTest, SplayTreeValidation)
+{
+    ASSERT_TRUE(spltree_validate(tree_));
+
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+    auto data4 = new TestData(75);
+    auto data5 = new TestData(125);
+    auto data6 = new TestData(25);
+    auto data7 = new TestData(175);
+
+    spltree_insert(tree_, &data1->node_, data1);
+    ASSERT_TRUE(spltree_validate(tree_));
+
+    spltree_insert(tree_, &data2->node_, data2);
+    ASSERT_TRUE(spltree_validate(tree_));
+
+    spltree_insert(tree_, &data3->node_, data3);
+    ASSERT_TRUE(spltree_validate(tree_));
+
+    spltree_insert(tree_, &data4->node_, data4);
+    ASSERT_TRUE(spltree_validate(tree_));
+
+    spltree_insert(tree_, &data5->node_, data5);
+    ASSERT_TRUE(spltree_validate(tree_));
+
+    spltree_insert(tree_, &data6->node_, data6);
+    ASSERT_TRUE(spltree_validate(tree_));
+
+    spltree_insert(tree_, &data7->node_, data7);
+    ASSERT_TRUE(spltree_validate(tree_));
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
