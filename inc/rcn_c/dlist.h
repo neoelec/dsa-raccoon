@@ -140,14 +140,14 @@ static inline void *dlist_at(const struct dlist *self, size_t n)
 
 static inline void dlist_swap(struct dlist *self, struct dlist *other)
 {
-    struct dlnode tmp;
+    struct dlnode _y, *y = &_y;
 
-    __dlist_insert_after(&self->pool_, &tmp);
+    __dlist_insert_after(&self->pool_, y);
     dlist_erase(&self->pool_);
     __dlist_insert_after(&other->pool_, &self->pool_);
     dlist_erase(&other->pool_);
-    __dlist_insert_after(&tmp, &other->pool_);
-    dlist_erase(&tmp);
+    __dlist_insert_after(y, &other->pool_);
+    dlist_erase(y);
 }
 
 static inline struct dlnode *dlist_remove_if(struct dlist *self, const void *ke,
@@ -168,16 +168,16 @@ static inline struct dlnode *dlist_remove_if(struct dlist *self, const void *ke,
 
 static inline void dlist_reverse(struct dlist *self)
 {
-    struct dlnode tmp = { .prev_ = &tmp, .next_ = &tmp, .entry_ = NULL };
+    struct dlnode _y = { .prev_ = &_y, .next_ = &_y, .entry_ = NULL }, *y = &_y;
 
     while (!dlist_empty(self)) {
         struct dlnode *x = dlist_begin(self);
         dlist_pop_front(self);
-        __dlist_insert_after(&tmp, x);
+        __dlist_insert_after(y, x);
     }
 
-    __dlist_insert_after(&tmp, &self->pool_);
-    dlist_erase(&tmp);
+    __dlist_insert_after(y, &self->pool_);
+    dlist_erase(y);
 }
 
 #ifdef __cplusplus
