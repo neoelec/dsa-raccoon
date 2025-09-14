@@ -21,6 +21,7 @@ static inline void *binary_search(const void *key, const void *base,
                                   int (*compar)(const void *a, const void *b))
 {
 #define __base(n) (&((char *)base)[(n) * size])
+
     ssize_t left, mid, right;
     int diff;
     left = 0;

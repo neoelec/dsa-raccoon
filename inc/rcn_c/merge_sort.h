@@ -21,6 +21,7 @@ static void __merge(void *base, void *sorted, size_t left, size_t mid,
                     int (*compar)(const void *a, const void *b))
 {
 #define __base(n) (&((char *)base)[(n) * size])
+
 #define __sorted(n) (&((char *)sorted)[(n) * size])
     size_t i = left, j = mid + 1., k = left;
 

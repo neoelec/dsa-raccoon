@@ -27,6 +27,7 @@ static inline void __down_heap(void *base, size_t nmemb, size_t pos,
                                int (*compar)(const void *a, const void *b))
 {
 #define __base(n) (&((char *)base)[(n) * size])
+
     size_t child, left, right;
     left = __heap_left(pos);
 
