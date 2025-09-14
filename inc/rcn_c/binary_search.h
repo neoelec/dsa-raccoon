@@ -8,6 +8,7 @@
 #ifndef __RCN_C_BINARY_SEARCH_H__
 #define __RCN_C_BINARY_SEARCH_H__
 
+#include <stddef.h>
 #include <sys/types.h>
 
 #ifdef __cplusplus
