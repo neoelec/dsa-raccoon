@@ -280,6 +280,11 @@ static inline int avltree_insert(struct avltree *self, struct avlnode *z,
     z->entry_ = e;
 
     self->root_ = __avltree_insert(self, self->root_, z, &err);
+
+    if (err != 0) {
+        return err;
+    }
+
     self->size_++;
 
     return 0;
