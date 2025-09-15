@@ -159,21 +159,21 @@ static inline void *avltree_back(const struct avltree *self)
     return avltree_empty(self) ? NULL : avltree_rbegin(self)->entry_;
 }
 
-static inline ssize_t __avlnode_max_height(const struct avlnode *x)
+static inline ssize_t __avlnode_height(const struct avlnode *x)
 {
     if (x == NULL) {
         return 0;
     }
 
-    ssize_t left_height = __avlnode_max_height(x->left_);
-    ssize_t right_height = __avlnode_max_height(x->right_);
+    ssize_t left_height = __avlnode_height(x->left_);
+    ssize_t right_height = __avlnode_height(x->right_);
 
     return (left_height > right_height ? left_height : right_height) + 1;
 }
 
 static inline ssize_t __avlnode_BF(const struct avlnode *x)
 {
-    return __avlnode_max_height(x->left_) - __avlnode_max_height(x->right_);
+    return __avlnode_height(x->left_) - __avlnode_height(x->right_);
 }
 
 static inline struct avlnode *__avlnode_RR(struct avlnode *x)
