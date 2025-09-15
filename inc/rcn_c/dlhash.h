@@ -91,16 +91,35 @@ static inline size_t dlhash_size(const struct dlhash *self)
     return count;
 }
 
-static inline void dlhash_insert(struct dlhash *self, struct dlnode *x, void *e)
+static inline int dlhash_insert(struct dlhash *self, struct dlnode *z, void *e)
 {
     size_t n = __dlhash_index(self, e);
+    struct dlist *bucket = &self->bucket_[n];
 
-    dlist_push_front(&self->bucket_[n], x, e);
+    for (struct dlnode *x = dlist_begin(bucket); x != dlist_end(bucket);
+         x = x->next_) {
+        if (self->compar_(e, x->entry_) == 0) {
+            return -EEXIST;
+        }
+    }
+
+    dlist_push_front(bucket, z, e);
+
+    return 0;
 }
 
-static inline void *dlhash_erase(struct dlhash *self, struct dlnode *x)
+static inline void dlhash_insert_multi(struct dlhash *self, struct dlnode *z,
+                                       void *e)
 {
-    return dlist_erase(x);
+    size_t n = __dlhash_index(self, e);
+    struct dlist *bucket = &self->bucket_[n];
+
+    dlist_push_front(bucket, z, e);
+}
+
+static inline void *dlhash_erase(struct dlhash *self, struct dlnode *z)
+{
+    return dlist_erase(z);
 }
 
 static inline struct dlnode *dlhash_find(const struct dlhash *self,

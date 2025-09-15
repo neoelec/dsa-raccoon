@@ -91,11 +91,30 @@ static inline size_t slhash_size(const struct slhash *self)
     return count;
 }
 
-static inline void slhash_insert(struct slhash *self, struct slnode *x, void *e)
+static inline int slhash_insert(struct slhash *self, struct slnode *z, void *e)
 {
     size_t n = __slhash_index(self, e);
+    struct slist *bucket = &self->bucket_[n];
 
-    slist_push_front(&self->bucket_[n], x, e);
+    for (struct slnode *x = slist_begin(bucket); x != slist_end(bucket);
+         x = x->next_) {
+        if (self->compar_(e, x->entry_) == 0) {
+            return -EEXIST;
+        }
+    }
+
+    slist_push_front(bucket, z, e);
+
+    return 0;
+}
+
+static inline void slhash_insert_multi(struct slhash *self, struct slnode *z,
+                                       void *e)
+{
+    size_t n = __slhash_index(self, e);
+    struct slist *bucket = &self->bucket_[n];
+
+    slist_push_front(bucket, z, e);
 }
 
 static inline struct slnode *slhash_find(const struct slhash *self,
