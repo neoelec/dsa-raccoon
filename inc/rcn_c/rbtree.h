@@ -8,6 +8,7 @@
 #ifndef __RCN_C_RBTREE_H__
 #define __RCN_C_RBTREE_H__
 
+#include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -273,7 +274,7 @@ static inline void __rbtree_insert_fixup(struct rbtree *self, struct rbnode *z)
     self->root_->color_ = RBCOLOR_BLACK;
 }
 
-static inline void rbtree_insert(struct rbtree *self, struct rbnode *z, void *e)
+static inline int rbtree_insert(struct rbtree *self, struct rbnode *z, void *e)
 {
     const struct rbnode *const NIL = rbtree_nil(self);
     struct rbnode *x = self->root_;
@@ -286,8 +287,10 @@ static inline void rbtree_insert(struct rbtree *self, struct rbnode *z, void *e)
 
         if (diff < 0) {
             x = x->left_;
-        } else {
+        } else if (diff > 0) {
             x = x->right_;
+        } else {
+            return -EEXIST;
         }
     }
 
@@ -306,6 +309,8 @@ static inline void rbtree_insert(struct rbtree *self, struct rbnode *z, void *e)
 
     self->size_++;
     __rbtree_insert_fixup(self, z);
+
+    return 0;
 }
 
 static inline void __rbtree_transplant(struct rbtree *self, struct rbnode *u,

@@ -10,6 +10,7 @@
 #ifndef __RCN_C_AVLTREE_H__
 #define __RCN_C_AVLTREE_H__
 
+#include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <sys/types.h>
@@ -249,7 +250,7 @@ static inline struct avlnode *__avltree_rebalance(struct avlnode *x)
 }
 
 static struct avlnode *__avltree_insert(struct avltree *self, struct avlnode *x,
-                                        struct avlnode *z)
+                                        struct avlnode *z, int *err)
 {
     if (x == NULL) {
         return z;
@@ -258,24 +259,30 @@ static struct avlnode *__avltree_insert(struct avltree *self, struct avlnode *x,
     int diff = self->compar_(z->entry_, x->entry_);
 
     if (diff < 0) {
-        x->left_ = __avltree_insert(self, x->left_, z);
+        x->left_ = __avltree_insert(self, x->left_, z, err);
         x->left_->parent_ = x;
     } else if (diff > 0) {
-        x->right_ = __avltree_insert(self, x->right_, z);
+        x->right_ = __avltree_insert(self, x->right_, z, err);
         x->right_->parent_ = x;
+    } else {
+        *err = -EEXIST;
     }
 
     return __avltree_rebalance(x);
 }
 
-static inline void avltree_insert(struct avltree *self, struct avlnode *z,
-                                  void *e)
+static inline int avltree_insert(struct avltree *self, struct avlnode *z,
+                                 void *e)
 {
+    int err = 0;
+
     z->parent_ = z->left_ = z->right_ = NULL;
     z->entry_ = e;
 
-    self->root_ = __avltree_insert(self, self->root_, z);
+    self->root_ = __avltree_insert(self, self->root_, z, &err);
     self->size_++;
+
+    return 0;
 }
 
 static struct avlnode *__avlnode_successor(struct avlnode *x,

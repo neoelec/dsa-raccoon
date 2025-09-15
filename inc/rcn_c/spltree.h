@@ -10,6 +10,7 @@
 #ifndef __RCN_C_SPLTREE_H__
 #define __RCN_C_SPLTREE_H__
 
+#include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -217,8 +218,8 @@ static inline void __spltree_splay(struct spltree *self, struct splnode *x)
     }
 }
 
-static inline void spltree_insert(struct spltree *self, struct splnode *z,
-                                  void *e)
+static inline int spltree_insert(struct spltree *self, struct splnode *z,
+                                 void *e)
 {
     struct splnode *p = self->root_, **pp;
 
@@ -228,14 +229,14 @@ static inline void spltree_insert(struct spltree *self, struct splnode *z,
     if (p == NULL) {
         self->root_ = z;
         z->parent_ = NULL;
-        return;
+        return 0;
     }
 
     while (true) {
         int diff = self->compar_(e, p->entry_);
 
         if (diff == 0) {
-            return;
+            return -EEXIST;
         } else if (diff < 0) {
             if (p->left_ == NULL) {
                 pp = &p->left_;
@@ -256,6 +257,8 @@ static inline void spltree_insert(struct spltree *self, struct splnode *z,
     *pp = z;
     z->parent_ = p;
     __spltree_splay(self, z);
+
+    return 0;
 }
 
 static inline const struct splnode *
