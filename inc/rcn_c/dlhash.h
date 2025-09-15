@@ -146,11 +146,10 @@ static inline size_t dlhash_size(const struct dlhash *self, const void *ke)
 
 static inline void dlhash_swap(struct dlhash *self, struct dlhash *other)
 {
-    struct dlhash tmp;
+    struct dlhash tmp = *self;
 
-    memcpy(&tmp, self, sizeof(tmp));
-    memcpy(self, other, sizeof(tmp));
-    memcpy(other, &tmp, sizeof(tmp));
+    *self = *other;
+    *other = tmp;
 }
 
 static inline int __dlhash_alloc_bucket(struct dlhash *self)

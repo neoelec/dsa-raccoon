@@ -99,11 +99,10 @@ static inline void *queue_pop(struct queue *self)
 
 static inline void queue_swap(struct queue *self, struct queue *other)
 {
-    struct queue tmp;
+    struct queue tmp = *self;
 
-    memcpy(&tmp, self, sizeof(tmp));
-    memcpy(self, other, sizeof(tmp));
-    memcpy(other, &tmp, sizeof(tmp));
+    *self = *other;
+    *other = tmp;
 }
 
 static inline int __queue_alloc_entry(struct queue *self)

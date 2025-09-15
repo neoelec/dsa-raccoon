@@ -245,11 +245,10 @@ static inline void *smmh_pop_back(struct smmh *self)
 
 static inline void smmh_swap(struct smmh *self, struct smmh *other)
 {
-    struct smmh tmp;
+    struct smmh tmp = *self;
 
-    memcpy(&tmp, self, sizeof(tmp));
-    memcpy(self, other, sizeof(tmp));
-    memcpy(other, &tmp, sizeof(tmp));
+    *self = *other;
+    *other = tmp;
 }
 
 static inline int __smmh_alloc_entry(struct smmh *self)

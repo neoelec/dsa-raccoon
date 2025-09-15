@@ -129,11 +129,10 @@ static inline size_t slhash_size(const struct slhash *self, const void *ke)
 
 static inline void slhash_swap(struct slhash *self, struct slhash *other)
 {
-    struct slhash tmp;
+    struct slhash tmp = *self;
 
-    memcpy(&tmp, self, sizeof(tmp));
-    memcpy(self, other, sizeof(tmp));
-    memcpy(other, &tmp, sizeof(tmp));
+    *self = *other;
+    *other = tmp;
 }
 
 static inline int __slhash_alloc_bucket(struct slhash *self)

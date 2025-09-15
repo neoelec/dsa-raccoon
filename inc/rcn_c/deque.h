@@ -129,11 +129,10 @@ static inline void *deque_pop_back(struct deque *self)
 
 static inline void deque_swap(struct deque *self, struct deque *other)
 {
-    struct deque tmp;
+    struct deque tmp = *self;
 
-    memcpy(&tmp, self, sizeof(tmp));
-    memcpy(self, other, sizeof(tmp));
-    memcpy(other, &tmp, sizeof(tmp));
+    *self = *other;
+    *other = tmp;
 }
 
 static inline int __deque_alloc_entry(struct deque *self)

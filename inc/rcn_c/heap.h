@@ -147,11 +147,10 @@ static inline void *heap_pop(struct heap *self)
 
 static inline void heap_swap(struct heap *self, struct heap *other)
 {
-    struct heap tmp;
+    struct heap tmp = *self;
 
-    memcpy(&tmp, self, sizeof(tmp));
-    memcpy(self, other, sizeof(tmp));
-    memcpy(other, &tmp, sizeof(tmp));
+    *self = *other;
+    *other = tmp;
 }
 
 static inline int __heap_alloc_entry(struct heap *self)

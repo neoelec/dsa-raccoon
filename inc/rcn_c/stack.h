@@ -89,11 +89,10 @@ static inline void *stack_pop(struct stack *self)
 
 static inline void stack_swap(struct stack *self, struct stack *other)
 {
-    struct stack tmp;
+    struct stack tmp = *self;
 
-    memcpy(&tmp, self, sizeof(tmp));
-    memcpy(self, other, sizeof(tmp));
-    memcpy(other, &tmp, sizeof(tmp));
+    *self = *other;
+    *other = tmp;
 }
 
 static inline int __stack_alloc_entry(struct stack *self)
