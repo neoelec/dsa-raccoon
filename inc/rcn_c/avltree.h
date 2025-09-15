@@ -25,6 +25,7 @@ struct avlnode {
     struct avlnode *left_;
     struct avlnode *right_;
     void *entry_;
+    ssize_t height_;
 };
 
 struct avltree {
@@ -161,14 +162,15 @@ static inline void *avltree_back(const struct avltree *self)
 
 static inline ssize_t __avlnode_height(const struct avlnode *x)
 {
-    if (x == NULL) {
-        return 0;
-    }
+    return x == NULL ? 0 : x->height_;
+}
 
+static inline void __avlnode_update_height(struct avlnode *x)
+{
     ssize_t left_height = __avlnode_height(x->left_);
     ssize_t right_height = __avlnode_height(x->right_);
 
-    return (left_height > right_height ? left_height : right_height) + 1;
+    x->height_ = (left_height > right_height ? left_height : right_height) + 1;
 }
 
 static inline ssize_t __avlnode_BF(const struct avlnode *x)
@@ -179,16 +181,20 @@ static inline ssize_t __avlnode_BF(const struct avlnode *x)
 static inline struct avlnode *__avlnode_RR(struct avlnode *x)
 {
     struct avlnode *y = x->right_;
-
-    x->right_ = y->left_;
-
-    if (y->left_ != NULL) {
-        y->left_->parent_ = x;
-    }
+    struct avlnode *t2 = y->left_;
 
     y->left_ = x;
+    x->right_ = t2;
+
+    if (t2 != NULL) {
+        t2->parent_ = x;
+    }
+
     y->parent_ = x->parent_;
     x->parent_ = y;
+
+    __avlnode_update_height(x);
+    __avlnode_update_height(y);
 
     return y;
 }
@@ -196,16 +202,20 @@ static inline struct avlnode *__avlnode_RR(struct avlnode *x)
 static inline struct avlnode *__avlnode_LL(struct avlnode *x)
 {
     struct avlnode *y = x->left_;
-
-    x->left_ = y->right_;
-
-    if (y->right_ != NULL) {
-        y->right_->parent_ = x;
-    }
+    struct avlnode *t2 = y->right_;
 
     y->right_ = x;
+    x->left_ = t2;
+
+    if (t2 != NULL) {
+        t2->parent_ = x;
+    }
+
     y->parent_ = x->parent_;
     x->parent_ = y;
+
+    __avlnode_update_height(x);
+    __avlnode_update_height(y);
 
     return y;
 }
@@ -226,6 +236,8 @@ static inline struct avlnode *__avlnode_RL(struct avlnode *x)
 
 static inline struct avlnode *__avltree_rebalance(struct avlnode *x)
 {
+    __avlnode_update_height(x);
+
     ssize_t bf = __avlnode_BF(x);
 
     if (bf >= 2) {
@@ -266,6 +278,7 @@ static struct avlnode *__avltree_insert(struct avltree *self, struct avlnode *x,
         x->right_->parent_ = x;
     } else {
         *err = -EEXIST;
+        return x;
     }
 
     return __avltree_rebalance(x);
@@ -278,6 +291,7 @@ static inline int avltree_insert(struct avltree *self, struct avlnode *z,
 
     z->parent_ = z->left_ = z->right_ = NULL;
     z->entry_ = e;
+    z->height_ = 1;
 
     self->root_ = __avltree_insert(self, self->root_, z, &err);
 
@@ -334,6 +348,7 @@ static struct avlnode *__avltree_erase(struct avltree *self, struct avlnode *x,
             y->parent_ = x->parent_;
             y->left_ = x->left_;
             y->right_ = x->right_;
+            y->height_ = x->height_;
 
             if (x->left_ != NULL) {
                 x->left_->parent_ = y;
@@ -462,6 +477,11 @@ static inline bool __avltree_validate_node(const struct avlnode *x)
     ssize_t bf = __avlnode_BF(x);
 
     if ((bf > 2) || (bf < -2)) {
+        return false;
+    }
+
+    if ((__avlnode_height(x) == __avlnode_height(x->left_)) ||
+        (__avlnode_height(x) == __avlnode_height(x->right_))) {
         return false;
     }
 
