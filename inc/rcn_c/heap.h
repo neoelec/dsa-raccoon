@@ -91,10 +91,10 @@ static inline void *heap_top(const struct heap *self)
     return heap_empty(self) ? NULL : self->entry_[0];
 }
 
-static inline void heap_push(struct heap *self, void *e)
+static inline int heap_push(struct heap *self, void *e)
 {
     if (heap_full(self)) {
-        return;
+        return -ENOSPC;
     }
 
     ssize_t pos, parent;
@@ -108,6 +108,8 @@ static inline void heap_push(struct heap *self, void *e)
     }
 
     self->entry_[pos] = e;
+
+    return 0;
 }
 
 static inline void *heap_pop(struct heap *self)

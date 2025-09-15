@@ -109,10 +109,10 @@ static inline void *smmh_back(const struct smmh *self)
     }
 }
 
-static inline void smmh_push(struct smmh *self, void *e)
+static inline int smmh_push(struct smmh *self, void *e)
 {
     if (smmh_full(self)) {
-        return;
+        return -ENOSPC;
     }
 
     size_t pos = ++self->idx_;
@@ -142,6 +142,8 @@ static inline void smmh_push(struct smmh *self, void *e)
 
     self->entry_[pos] = self->entry_[SMMH_TEMP_IDX];
     self->entry_[SMMH_TEMP_IDX] = NULL;
+
+    return 0;
 }
 
 static inline void __smmh_pop_front(struct smmh *self)

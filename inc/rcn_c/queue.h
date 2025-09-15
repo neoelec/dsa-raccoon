@@ -72,15 +72,17 @@ static inline void *queue_back(const struct queue *self)
     return queue_empty(self) ? NULL : self->entry_[self->back_];
 }
 
-static inline void queue_push(struct queue *self, void *e)
+static inline int queue_push(struct queue *self, void *e)
 {
     if (queue_full(self)) {
-        return;
+        return -ENOSPC;
     }
 
     self->back_ = self->back_ == 0 ? self->nr_entries_ - 1 : self->back_ - 1;
     self->entry_[self->back_] = e;
     self->size_++;
+
+    return 0;
 }
 
 static inline void *queue_pop(struct queue *self)

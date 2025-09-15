@@ -67,13 +67,15 @@ static inline void *stack_top(const struct stack *self)
     return self->entry_[self->top_];
 }
 
-static inline void stack_push(struct stack *self, void *e)
+static inline int stack_push(struct stack *self, void *e)
 {
     if (stack_size(self) == self->nr_entries_) {
-        return;
+        return -ENOSPC;
     }
 
     self->entry_[++self->top_] = e;
+
+    return 0;
 }
 
 static inline void *stack_pop(struct stack *self)

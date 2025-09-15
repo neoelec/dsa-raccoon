@@ -72,10 +72,10 @@ static inline void *deque_back(const struct deque *self)
     return deque_empty(self) ? NULL : self->entry_[self->back_];
 }
 
-static inline void deque_push_front(struct deque *self, void *e)
+static inline int deque_push_front(struct deque *self, void *e)
 {
     if (deque_full(self)) {
-        return;
+        return -ENOSPC;
     }
 
     self->front_++;
@@ -86,17 +86,21 @@ static inline void deque_push_front(struct deque *self, void *e)
 
     self->entry_[self->front_] = e;
     self->size_++;
+
+    return 0;
 }
 
-static inline void deque_push_back(struct deque *self, void *e)
+static inline int deque_push_back(struct deque *self, void *e)
 {
     if (deque_full(self)) {
-        return;
+        return -ENOSPC;
     }
 
     self->back_ = self->back_ == 0 ? self->nr_entries_ - 1 : self->back_ - 1;
     self->entry_[self->back_] = e;
     self->size_++;
+
+    return 0;
 }
 
 static inline void *deque_pop_front(struct deque *self)
