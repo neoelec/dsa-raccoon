@@ -29,9 +29,11 @@ static void __intro_sort(void *base, ssize_t left, ssize_t right, size_t size,
     } else if (depth_limit == 0) {
         heap_sort(__base(left), right - left + 1, size, compar);
     } else {
-        ssize_t j = __partition(base, left, right, size, compar);
+        ssize_t j;
 
         depth_limit--;
+        __median_of_three(base, left, right, size, compar);
+        j = __partition(base, left, right, size, compar);
         __intro_sort(base, left, j - 1, size, depth_limit, compar);
         __intro_sort(base, j + 1, right, size, depth_limit, compar);
     }
