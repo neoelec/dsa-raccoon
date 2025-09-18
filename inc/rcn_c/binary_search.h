@@ -55,9 +55,9 @@ static inline void *binary_search(const void *key, const void *base,
     return pos >= 0 ? __base(pos) : NULL;
 }
 
-static inline size_t binary_insert(void *key, void *base, size_t *nmemb,
-                                   size_t size,
-                                   int (*compar)(const void *a, const void *b))
+static inline void *binary_insert(void *key, void *base, size_t *nmemb,
+                                  size_t size,
+                                  int (*compar)(const void *a, const void *b))
 {
     size_t pos = 0;
 
@@ -72,25 +72,23 @@ static inline size_t binary_insert(void *key, void *base, size_t *nmemb,
     memcpy(__base(pos), key, size);
     (*nmemb)++;
 
-    return pos;
+    return __base(pos);
 }
 
-static inline ssize_t binary_delete(void *key, void *base, size_t *nmemb,
-                                    size_t size,
-                                    int (*compar)(const void *a, const void *b))
+static inline int binary_delete(void *key, void *base, size_t *nmemb,
+                                size_t size,
+                                int (*compar)(const void *a, const void *b))
 {
     ssize_t pos;
 
-    if (*nmemb <= 0) {
-        return -ERANGE;
-    } else if ((pos = __binary_search(key, base, *nmemb, size, compar)) < 0) {
+    if ((pos = __binary_search(key, base, *nmemb, size, compar)) < 0) {
         return -EEXIST;
     }
 
     memcpy(__base(pos), __base(pos + 1), (*nmemb - pos) * size);
     (*nmemb)--;
 
-    return pos;
+    return 0;
 }
 
 #undef __base

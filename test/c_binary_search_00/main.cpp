@@ -114,23 +114,28 @@ TEST(BinarySearchTest, BinaryInsertAndDelete)
 {
     int key = 4;
     int arr[6] = { 1, 3, 5, 7, 9 };
+    int *found;
     size_t nmemb = 5;
-    ssize_t pos;
+    int err;
 
-    pos = rcn_c::binary_insert(&key, arr, &nmemb, sizeof(arr[0]), IntCompar);
-    ASSERT_EQ(2, pos);
-    ASSERT_EQ(key, arr[pos]);
-    ASSERT_EQ(5, arr[pos + 1]);
-    ASSERT_EQ(7, arr[pos + 2]);
-    ASSERT_EQ(9, arr[pos + 3]);
+    found = (int *)rcn_c::binary_insert(&key, arr, &nmemb, sizeof(arr[0]),
+                                        IntCompar);
+    ASSERT_EQ(key, found[0]);
+    ASSERT_EQ(5, found[1]);
+    ASSERT_EQ(7, found[2]);
+    ASSERT_EQ(9, found[3]);
     ASSERT_EQ(6, nmemb);
 
-    pos = rcn_c::binary_delete(&key, arr, &nmemb, sizeof(arr[0]), IntCompar);
-    ASSERT_EQ(2, pos);
-    ASSERT_EQ(5, arr[pos]);
-    ASSERT_EQ(7, arr[pos + 1]);
-    ASSERT_EQ(9, arr[pos + 2]);
+    err = rcn_c::binary_delete(&key, arr, &nmemb, sizeof(arr[0]), IntCompar);
+    ASSERT_EQ(0, err);
+    ASSERT_EQ(5, arr[2]);
+    ASSERT_EQ(7, arr[3]);
+    ASSERT_EQ(9, arr[4]);
     ASSERT_EQ(5, nmemb);
+
+    key = 2;
+    err = rcn_c::binary_delete(&key, arr, &nmemb, sizeof(arr[0]), IntCompar);
+    ASSERT_EQ(-EEXIST, err);
 }
 
 int main(int argc, char **argv)
