@@ -110,6 +110,29 @@ TEST(BinarySearchTest, LargeArrayNotFound)
     ASSERT_EQ(nullptr, result);
 }
 
+TEST(BinarySearchTest, BinaryInsertAndDelete)
+{
+    int key = 4;
+    int arr[6] = { 1, 3, 5, 7, 9 };
+    size_t nmemb = 5;
+    ssize_t pos;
+
+    pos = rcn_c::binary_insert(&key, arr, &nmemb, sizeof(arr[0]), IntCompar);
+    ASSERT_EQ(2, pos);
+    ASSERT_EQ(key, arr[pos]);
+    ASSERT_EQ(5, arr[pos + 1]);
+    ASSERT_EQ(7, arr[pos + 2]);
+    ASSERT_EQ(9, arr[pos + 3]);
+    ASSERT_EQ(6, nmemb);
+
+    pos = rcn_c::binary_delete(&key, arr, &nmemb, sizeof(arr[0]), IntCompar);
+    ASSERT_EQ(2, pos);
+    ASSERT_EQ(5, arr[pos]);
+    ASSERT_EQ(7, arr[pos + 1]);
+    ASSERT_EQ(9, arr[pos + 2]);
+    ASSERT_EQ(5, nmemb);
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
