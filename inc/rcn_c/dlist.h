@@ -37,6 +37,21 @@ static inline void dlist_insert_after(struct dlnode *pos, struct dlnode *x,
     __dlist_insert_after(pos, x);
 }
 
+static inline void __dlist_insert_before(struct dlnode *pos, struct dlnode *x)
+{
+    x->next_ = pos;
+    x->prev_ = pos->prev_;
+    pos->prev_->next_ = x;
+    pos->prev_ = x;
+}
+
+static inline void dlist_insert_before(struct dlnode *pos, struct dlnode *x,
+                                       void *e)
+{
+    x->entry_ = e;
+    __dlist_insert_before(pos, x);
+}
+
 static inline void *dlist_erase(struct dlnode *pos)
 {
     pos->prev_->next_ = pos->next_;
@@ -114,7 +129,7 @@ static inline void dlist_push_front(struct dlist *self, struct dlnode *x,
 static inline void dlist_push_back(struct dlist *self, struct dlnode *x,
                                    void *e)
 {
-    dlist_insert_after(dlist_rbegin(self), x, e);
+    dlist_insert_before(&self->pool_, x, e);
 }
 
 static inline void *dlist_pop_front(struct dlist *self)
