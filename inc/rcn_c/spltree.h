@@ -225,6 +225,7 @@ static inline int spltree_insert(struct spltree *self, struct splnode *z,
 
     z->entry_ = e;
     z->left_ = z->right_ = NULL;
+    z->count_ = 1;
 
     if (p == NULL) {
         self->root_ = z;
