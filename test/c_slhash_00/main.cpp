@@ -22,6 +22,12 @@ protected:
 
     void TearDown() override
     {
+        while (!slhash_empty(table_)) {
+            rcn_c::slnode *x = slhash_begin(table_);
+            slhash_erase(table_, x);
+            delete (TestData *)x;
+        }
+
         __slhash_free_bucket(table_);
         delete table_;
     }
@@ -77,8 +83,7 @@ TEST_F(SLHashTest, Find)
     key->value_ = 20;
     ASSERT_EQ(slhash_find(table_, key), &data2->node_);
 
-    delete data1;
-    delete data2;
+    delete key;
 }
 
 TEST_F(SLHashTest, InsertAndAt)
@@ -98,8 +103,6 @@ TEST_F(SLHashTest, InsertAndAt)
     ASSERT_EQ(slhash_at(table_, key), data2);
 
     delete key;
-    delete data1;
-    delete data2;
 }
 
 TEST_F(SLHashTest, EmptyAndSize)
@@ -118,9 +121,6 @@ TEST_F(SLHashTest, EmptyAndSize)
 
     ASSERT_FALSE(slhash_empty(table_));
     ASSERT_EQ(slhash_size(table_), 2);
-
-    delete data1;
-    delete data2;
 }
 
 TEST_F(SLHashTest, Clear)
@@ -191,9 +191,49 @@ TEST_F(SLHashTest, Swap)
     key->value_ = 10;
     ASSERT_EQ(slhash_at(&other_table_, key), data1);
 
-    delete data1;
-    delete data2;
+    delete key;
     __slhash_alloc_bucket(&other_table_);
+}
+
+TEST_F(SLHashTest, SLHashValidation)
+{
+    ASSERT_TRUE(slhash_validate(table_));
+
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+    auto data4 = new TestData(75);
+    auto data5 = new TestData(125);
+    auto data6 = new TestData(25);
+    auto data7 = new TestData(175);
+
+    slhash_insert(table_, &data1->node_, data1);
+    ASSERT_TRUE(slhash_validate(table_));
+    ASSERT_EQ(slhash_size(table_), 1);
+
+    slhash_insert(table_, &data2->node_, data2);
+    ASSERT_TRUE(slhash_validate(table_));
+    ASSERT_EQ(slhash_size(table_), 2);
+
+    slhash_insert(table_, &data3->node_, data3);
+    ASSERT_TRUE(slhash_validate(table_));
+    ASSERT_EQ(slhash_size(table_), 3);
+
+    slhash_insert(table_, &data4->node_, data4);
+    ASSERT_TRUE(slhash_validate(table_));
+    ASSERT_EQ(slhash_size(table_), 4);
+
+    slhash_insert(table_, &data5->node_, data5);
+    ASSERT_TRUE(slhash_validate(table_));
+    ASSERT_EQ(slhash_size(table_), 5);
+
+    slhash_insert(table_, &data6->node_, data6);
+    ASSERT_TRUE(slhash_validate(table_));
+    ASSERT_EQ(slhash_size(table_), 6);
+
+    slhash_insert(table_, &data7->node_, data7);
+    ASSERT_TRUE(slhash_validate(table_));
+    ASSERT_EQ(slhash_size(table_), 7);
 }
 
 int main(int argc, char **argv)
