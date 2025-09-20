@@ -98,7 +98,7 @@ TEST_F(SListTest, At)
     ASSERT_EQ(slist_at(list_, 3), nullptr);
 }
 
-TEST_F(SListTest, EraseAfter)
+TEST_F(SListTest, EraseAndEraseAfter)
 {
     auto data1 = new TestData(10);
     auto data2 = new TestData(20);
@@ -113,11 +113,16 @@ TEST_F(SListTest, EraseAfter)
     slist_push_front(list_, &data3->node_, data3);
 
     auto begin = slist_begin(list_);
-    auto first_data = (TestData *)slist_erase_after(begin);
-    ASSERT_EQ(first_data->value_, 20);
-    delete first_data;
-    ASSERT_EQ(((TestData *)slist_at(list_, 0))->value_, 30);
-    ASSERT_EQ(((TestData *)slist_at(list_, 1))->value_, 10);
+
+    auto data = (TestData *)slist_erase_after(begin);
+    ASSERT_EQ(data->value_, 20);
+    delete data;
+
+    data = (TestData *)slist_erase(begin);
+    ASSERT_EQ(data->value_, 30);
+    delete data;
+
+    ASSERT_EQ(((TestData *)slist_at(list_, 0))->value_, 10);
 }
 
 TEST_F(SListTest, SizeAndEmpty)

@@ -88,6 +88,20 @@ static inline const struct slnode *slist_end(const struct slist *self)
     return &self->pool_;
 }
 
+static inline void *slist_erase(struct slnode *x)
+{
+    const struct slist *list = x->list_;
+
+    for (struct slnode *y = (struct slnode *)&list->pool_;
+         y->next_ != slist_end(list); y = y->next_) {
+        if (y->next_ == x) {
+            return slist_erase_after(y);
+        }
+    }
+
+    return NULL;
+}
+
 static inline size_t slist_size(const struct slist *self)
 {
     return self->size_;
