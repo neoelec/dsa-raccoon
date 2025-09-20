@@ -22,12 +22,10 @@ protected:
 
     void TearDown() override
     {
-        for (size_t i = 0; i < dlhash_buckets(table_); i++) {
-            while (dlhash_begin(table_, i) != dlhash_end(table_, i)) {
-                rcn_c::dlnode *x = dlhash_begin(table_, i);
-                dlhash_erase(table_, x);
-                delete (TestData *)x;
-            }
+        while (!dlhash_empty(table_)) {
+            rcn_c::dlnode *x = dlhash_begin(table_);
+            dlhash_erase(table_, x);
+            delete (TestData *)x;
         }
 
         __dlhash_free_bucket(table_);
@@ -189,14 +187,10 @@ TEST_F(DLHashTest, Count)
     ASSERT_NE(data2, nullptr);
 
     dlhash_insert(table_, &data1->node_, data1);
+    ASSERT_EQ(dlhash_size(table_), 1);
+
     dlhash_insert(table_, &data2->node_, data2);
-
-    auto key = new TestData(10);
-    ASSERT_EQ(dlhash_size(table_, key), 1);
-    key->value_ = 20;
-    ASSERT_EQ(dlhash_size(table_, key), 1);
-
-    delete key;
+    ASSERT_EQ(dlhash_size(table_), 2);
 }
 
 TEST_F(DLHashTest, Swap)
@@ -227,8 +221,49 @@ TEST_F(DLHashTest, Swap)
     key->value_ = 10;
     ASSERT_EQ(dlhash_at(&other_table_, key), data1);
 
-    delete data1;
+    delete key;
     __dlhash_alloc_bucket(&other_table_);
+}
+
+TEST_F(DLHashTest, DLHashValidation)
+{
+    ASSERT_TRUE(dlhash_validate(table_));
+
+    auto data1 = new TestData(100);
+    auto data2 = new TestData(50);
+    auto data3 = new TestData(150);
+    auto data4 = new TestData(75);
+    auto data5 = new TestData(125);
+    auto data6 = new TestData(25);
+    auto data7 = new TestData(175);
+
+    dlhash_insert(table_, &data1->node_, data1);
+    ASSERT_TRUE(dlhash_validate(table_));
+    ASSERT_EQ(dlhash_size(table_), 1);
+
+    dlhash_insert(table_, &data2->node_, data2);
+    ASSERT_TRUE(dlhash_validate(table_));
+    ASSERT_EQ(dlhash_size(table_), 2);
+
+    dlhash_insert(table_, &data3->node_, data3);
+    ASSERT_TRUE(dlhash_validate(table_));
+    ASSERT_EQ(dlhash_size(table_), 3);
+
+    dlhash_insert(table_, &data4->node_, data4);
+    ASSERT_TRUE(dlhash_validate(table_));
+    ASSERT_EQ(dlhash_size(table_), 4);
+
+    dlhash_insert(table_, &data5->node_, data5);
+    ASSERT_TRUE(dlhash_validate(table_));
+    ASSERT_EQ(dlhash_size(table_), 5);
+
+    dlhash_insert(table_, &data6->node_, data6);
+    ASSERT_TRUE(dlhash_validate(table_));
+    ASSERT_EQ(dlhash_size(table_), 6);
+
+    dlhash_insert(table_, &data7->node_, data7);
+    ASSERT_TRUE(dlhash_validate(table_));
+    ASSERT_EQ(dlhash_size(table_), 7);
 }
 
 int main(int argc, char **argv)
