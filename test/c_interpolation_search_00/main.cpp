@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "rcn_c/common.h"
 #include "rcn_c/interpolation_search.h"
+#include "rcn_c/linear_search.h"
 
 int IntCompar(const void *a, const void *b)
 {
@@ -118,8 +119,8 @@ TEST(InterpolationSearchTest, InterpolationInsertAndDelete)
     size_t nmemb = 5;
     int err;
 
-    found = (int *)rcn_c::interpolation_insert(&key, arr, &nmemb,
-                                               sizeof(arr[0]), IntCompar);
+    found = (int *)rcn_c::linear_insert(&key, arr, &nmemb, sizeof(arr[0]),
+                                        IntCompar);
     ASSERT_EQ(key, found[0]);
     ASSERT_EQ(5, found[1]);
     ASSERT_EQ(7, found[2]);

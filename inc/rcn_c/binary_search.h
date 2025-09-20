@@ -55,26 +55,6 @@ static inline void *binary_search(const void *key, const void *base,
     return pos >= 0 ? __base(pos) : NULL;
 }
 
-static inline void *binary_insert(void *key, void *base, size_t *nmemb,
-                                  size_t size,
-                                  int (*compar)(const void *a, const void *b))
-{
-    size_t pos = 0;
-
-    while (compar(key, __base(pos)) > 0 && pos < *nmemb) {
-        pos++;
-    }
-
-    for (size_t i = *nmemb; i > pos; --i) {
-        memcpy(__base(i), __base(i - 1), size);
-    }
-
-    memcpy(__base(pos), key, size);
-    (*nmemb)++;
-
-    return __base(pos);
-}
-
 static inline int binary_delete(void *key, void *base, size_t *nmemb,
                                 size_t size,
                                 int (*compar)(const void *a, const void *b))
