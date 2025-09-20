@@ -16,12 +16,20 @@ namespace rcn_c
 {
 #endif
 
+struct slist;
+
 struct slnode {
+    const struct slist *list_;
     struct slnode *next_;
     void *entry_;
 };
 
-static inline void __slist_insert_after(struct slnode *pos, struct slnode *x)
+struct slist {
+    struct slnode pool_;
+    size_t size_;
+};
+
+static inline void __slnode_link_after(struct slnode *pos, struct slnode *x)
 {
     x->next_ = pos->next_;
     pos->next_ = x;
@@ -30,25 +38,39 @@ static inline void __slist_insert_after(struct slnode *pos, struct slnode *x)
 static inline void slist_insert_after(struct slnode *pos, struct slnode *x,
                                       void *e)
 {
+    struct slist *list = (struct slist *)pos->list_;
+
+    list->size_++;
+    x->list_ = list;
     x->entry_ = e;
-    __slist_insert_after(pos, x);
+    __slnode_link_after(pos, x);
 }
 
-static inline void *slist_erase_after(struct slnode *pos)
+static inline void __slnode_unlink_after(struct slnode *pos)
 {
     struct slnode *x = pos->next_;
 
     pos->next_ = x->next_;
-    return x->entry_;
 }
 
-struct slist {
-    struct slnode pool_;
-};
+static inline void *slist_erase_after(struct slnode *pos)
+{
+    struct slist *list = (struct slist *)pos->list_;
+    struct slnode *x = pos->next_;
+
+    list->size_--;
+    x->list_ = NULL;
+    __slnode_unlink_after(pos);
+
+    return x->entry_;
+}
 
 static inline void slist_clear(struct slist *self)
 {
     self->pool_.next_ = &self->pool_;
+    self->pool_.list_ = self;
+    self->pool_.entry_ = NULL;
+    self->size_ = 0;
 }
 
 static inline void slist_init(struct slist *self)
@@ -66,21 +88,14 @@ static inline const struct slnode *slist_end(const struct slist *self)
     return &self->pool_;
 }
 
-static inline bool slist_empty(const struct slist *self)
-{
-    return slist_begin(self) == &self->pool_;
-}
-
 static inline size_t slist_size(const struct slist *self)
 {
-    struct slnode *x;
-    size_t count = 0;
+    return self->size_;
+}
 
-    for (x = slist_begin(self); x != slist_end(self); x = x->next_) {
-        count++;
-    }
-
-    return count;
+static inline bool slist_empty(const struct slist *self)
+{
+    return slist_size(self) == 0;
 }
 
 static inline void *slist_front(const struct slist *self)
@@ -113,10 +128,16 @@ static inline void *slist_at(const struct slist *self, size_t n)
 static inline void slist_swap(struct slist *self, struct slist *other)
 {
     struct slnode *x;
+    size_t size;
+
+    size = self->size_;
+    self->size_ = other->size_;
+    other->size_ = size;
 
     x = slist_begin(self);
 
     while (x->next_ != slist_end(self)) {
+        x->list_ = other;
         x = x->next_;
     }
 
@@ -125,6 +146,7 @@ static inline void slist_swap(struct slist *self, struct slist *other)
     x = slist_begin(other);
 
     while (x->next_ != slist_end(other)) {
+        x->list_ = self;
         x = x->next_;
     }
 
@@ -155,15 +177,35 @@ static inline struct slnode *slist_remove_if(struct slist *self, const void *ke,
 
 static inline void slist_reverse(struct slist *self)
 {
-    struct slnode _y = { .next_ = &self->pool_, .entry_ = NULL }, *y = &_y;
+    struct slnode _y, *y = &_y;
 
-    while (!slist_empty(self)) {
+    y->list_ = NULL;
+    y->next_ = &self->pool_;
+
+    for (size_t i = slist_size(self); i > 0; --i) {
         struct slnode *x = slist_begin(self);
-        slist_pop_front(self);
-        __slist_insert_after(y, x);
+
+        __slnode_unlink_after(&self->pool_);
+        __slnode_link_after(y, x);
     }
 
     self->pool_.next_ = y->next_;
+}
+
+static inline bool slist_validate(const struct slist *self)
+{
+    size_t size = 0;
+
+    for (const struct slnode *x = slist_begin(self); x != slist_end(self);
+         x = x->next_) {
+        if (x->list_ != self) {
+            return false;
+        }
+
+        size++;
+    }
+
+    return slist_size(self) == size ? true : false;
 }
 
 #ifdef __cplusplus
